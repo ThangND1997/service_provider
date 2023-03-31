@@ -62,6 +62,18 @@ export class UsersController implements IUsersController {
         }
     }
 
+    public async view(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
+        try {
+            let id: string = req.params.id;
+            const result = await this._usersService.findById(id);
+            res.status(200);
+            res.json(result);
+        }
+        catch (err) {
+            next(err)
+        }
+    }
+
     public async login(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
         try {
             const account: string = (req.body.account).trim() || "";

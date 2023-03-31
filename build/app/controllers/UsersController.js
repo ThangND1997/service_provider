@@ -65,6 +65,17 @@ let UsersController = class UsersController {
             next(err);
         }
     }
+    async view(req, res, next) {
+        try {
+            let id = req.params.id;
+            const result = await this._usersService.findById(id);
+            res.status(200);
+            res.json(result);
+        }
+        catch (err) {
+            next(err);
+        }
+    }
     async login(req, res, next) {
         try {
             const account = (req.body.account).trim() || "";

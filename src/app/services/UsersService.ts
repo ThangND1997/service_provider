@@ -39,6 +39,10 @@ class UsersService extends BaseService<IUsersRepository, UsersDto> implements IU
         return this.deleteById(id);
     }
 
+    public async findById(id: string): Promise<any> {
+        return this.findById(id);
+    }
+
     public async login(account: string, password: string): Promise<any> {
         const oldData = await this._usersRepository.findUserAccount(account);
         if (!oldData) {

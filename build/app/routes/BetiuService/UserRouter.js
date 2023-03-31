@@ -9,6 +9,7 @@ router.route("/")
     .post(controller.create.bind(controller))
     .get(controller.search.bind(controller));
 router.route("/:id")
+    .get(controller.view.bind(controller))
     .put(controller.update.bind(controller))
     .delete(controller.delete.bind(controller));
 router.route("/login")
