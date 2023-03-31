@@ -51,7 +51,6 @@ jspm_packages
 .yarn-integrity
 local
 .idea
-build
 src/**/*.yaml
 !src/configs/template.yaml
 server.key.pem
