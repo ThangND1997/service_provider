@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "0.21.1",
+    "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
     "compression": "^1.7.4",
     "express": "4.17.1",
@@ -26,6 +27,7 @@
     "html-to-text": "3.3.0",
     "inversify": "5.0.1",
     "js-yaml": "3.14.0",
+    "jsonwebtoken": "^8.5.1",
     "knex": "0.21.18",
     "lodash": "4.17.20",
     "mailgen": "2.0.14",
@@ -48,8 +50,10 @@
     "wait-on": "5.2.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/express": "4.17.9",
     "@types/js-yaml": "3.12.5",
+    "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "14.14.10",
     "@types/pino": "^7.0.5",
     "@types/uuid": "8.3.0",

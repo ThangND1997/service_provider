@@ -51,6 +51,12 @@ let UsersRepository = class UsersRepository extends _1.BaseRepository {
             q.where(Contants_1.USERS_TABLE_SCHEMA.FIELDS.EMAIL, email);
         });
     }
+    async findUserAccount(account) {
+        return this.findOneByQuery(q => {
+            q.where(Contants_1.USERS_TABLE_SCHEMA.FIELDS.EMAIL, account);
+            q.orWhere(Contants_1.USERS_TABLE_SCHEMA.FIELDS.ACCOUNT, account);
+        });
+    }
 };
 UsersRepository = __decorate([
     inversify_1.injectable(),

@@ -8,7 +8,7 @@ const core_1 = require("./core");
 const routes_1 = require("./app/routes");
 const HttpLog_1 = require("./middlewares/HttpLog");
 const Cors_1 = require("./middlewares/Cors");
-const HTTP_PORT = core_1.Configuration.PORT || 3000;
+const HTTP_PORT = process.env.PORT || 3000;
 const startServer = () => {
     const app = express();
     app.use(express.json({ limit: "5mb" }));
@@ -18,7 +18,7 @@ const startServer = () => {
     app.use("/", routes_1.default);
     app.use(HttpLog_1.httpLogger());
     app.use(Cors_1.default());
-    app.listen(HTTP_PORT, () => {
+    app.listen(process.env.PORT || 3000, () => {
         core_1.Logger.info(`HTTP Server Listening on ${HTTP_PORT}`);
     });
 };

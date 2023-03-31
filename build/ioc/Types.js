@@ -4,10 +4,11 @@ exports.TYPES = void 0;
 const TYPES = {
     USERS_CONVERTER: Symbol.for("UsersConverter"),
     USERS_REPOSITORY: Symbol.for("UsersRepository"),
+    LOGIN_REPOSITORY: Symbol.for("LoginRepository"),
     USERS_SERVICE: Symbol.for("UsersService"),
+    LOGIN_SERVICE: Symbol.for("LoginService"),
     USERS_CONTROLLER: Symbol.for("UsersController"),
-    TAP_STATISTIC_HANDLER: Symbol.for("TapStatisticHandler"),
-    TAP_STATISTIC_SUBJECT_CHANGED_HANDLER: Symbol.for("TapStatisticSubjectChangedHandler"),
+    LOGIN_CONTROLLER: Symbol.for("LoginController"),
 };
 exports.TYPES = TYPES;
 //# sourceMappingURL=Types.js.map

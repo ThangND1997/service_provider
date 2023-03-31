@@ -41,6 +41,45 @@ let UsersController = class UsersController {
             next(err);
         }
     }
+    async update(req, res, next) {
+        try {
+            let id = req.params.id;
+            const params = await this._converter.requestToDto(req.body) || {};
+            params.id = id;
+            await this._usersService.update(params);
+            res.status(200);
+            res.json({ status: "Update data successfully..", id });
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+    async delete(req, res, next) {
+        try {
+            let id = req.params.id;
+            await this._usersService.delete(id);
+            res.status(200);
+            res.json({ status: "Delete data successfully..", id });
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+    async login(req, res, next) {
+        try {
+            const account = (req.body.account).trim() || "";
+            const password = (req.body.password).trim() || "";
+            if (!account || !password) {
+                throw new Error("Missing Require Field.");
+            }
+            const token = await this._usersService.login(account, password);
+            res.status(200);
+            res.json({ status: "Login successfully..", token });
+        }
+        catch (err) {
+            next(err);
+        }
+    }
 };
 UsersController = __decorate([
     inversify_1.injectable(),

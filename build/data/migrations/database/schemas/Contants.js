@@ -18,7 +18,8 @@ exports.USERS_TABLE_SCHEMA = {
         NOTE: "note",
         STATUS: "status",
         ROLE: "role",
-        PASSWORD: "password"
+        PASSWORD: "password",
+        ACCOUNT: "account"
     }
 };
 //# sourceMappingURL=Contants.js.map

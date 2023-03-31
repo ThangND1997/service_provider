@@ -1,13 +1,11 @@
 
 database:
   postgres:
-    application_name: ""
-    charset: ""
-    database: ""
+    database: "users_vjyz"
     debug: false
-    host: localhost
-    password: 1q2w3e
+    host: dpg-cggjd1ceoogqfc2p63ag-a.singapore-postgres.render.com
+    password: Uj0X5HamHbIFTnzWwL4cuLI6CsVynMfj
     port: 5432
     secure: false
-    user: postgres,
+    user: thangnd
     ssl: true

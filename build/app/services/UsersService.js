@@ -12,11 +12,14 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsersService = void 0;
 const inversify_1 = require("inversify");
+const _1 = require(".");
 const Types_1 = require("../../ioc/Types");
-let UsersService = class UsersService {
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+let UsersService = class UsersService extends _1.BaseService {
     constructor(_usersRepository) {
+        super(_usersRepository);
         this._usersRepository = _usersRepository;
     }
     async create(params) {
@@ -29,12 +32,35 @@ let UsersService = class UsersService {
     async search(params) {
         return this._usersRepository.search(params);
     }
+    async update(params) {
+        const oldData = await this.findById(params.id);
+        if (!oldData) {
+            throw Error("Record do not exist in DB.");
+        }
+        return this.updateById(params.id, params);
+    }
+    async delete(id) {
+        return this.deleteById(id);
+    }
+    async login(account, password) {
+        const oldData = await this._usersRepository.findUserAccount(account);
+        if (!oldData) {
+            throw new Error("Not Find Account In DB.");
+        }
+        const isValidatePassword = await bcrypt.compareSync(password, oldData.password);
+        if (!isValidatePassword) {
+            throw new Error("Password incorrect. Please try again");
+        }
+        const payload = {
+            userId: oldData.id,
+        };
+        return jwt.sign(payload, 'secret', { expiresIn: "100h" });
+    }
 };
 UsersService = __decorate([
     inversify_1.injectable(),
     __param(0, inversify_1.inject(Types_1.TYPES.USERS_REPOSITORY)),
     __metadata("design:paramtypes", [Object])
 ], UsersService);
-exports.UsersService = UsersService;
 exports.default = UsersService;
 //# sourceMappingURL=UsersService.js.map

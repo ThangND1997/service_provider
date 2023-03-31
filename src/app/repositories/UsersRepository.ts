@@ -49,6 +49,13 @@ export class UsersRepository extends BaseRepository<UsersModel, UsersDto> implem
         })
     }
 
+    public async findUserAccount(account: string): Promise<UsersDto> {
+        return this.findOneByQuery(q => {
+            q.where(USERS_TABLE_SCHEMA.FIELDS.EMAIL, account);
+            q.orWhere(USERS_TABLE_SCHEMA.FIELDS.ACCOUNT, account)
+        })
+    }
+
 }
 
 export default UsersRepository;

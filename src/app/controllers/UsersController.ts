@@ -35,6 +35,69 @@ export class UsersController implements IUsersController {
             next(err)
         }
     }
+
+    public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
+        try {
+            let id: string = req.params.id;
+            const params: any = await this._converter.requestToDto(req.body) || {};
+            params.id = id;
+            await this._usersService.update(params);
+            res.status(200);
+            res.json({status: "Update data successfully..", id});
+        }
+        catch (err) {
+            next(err)
+        }
+    }
+
+    public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
+        try {
+            let id: string = req.params.id;
+            await this._usersService.delete(id);
+            res.status(200);
+            res.json({status: "Delete data successfully..", id});
+        }
+        catch (err) {
+            next(err)
+        }
+    }
+
+    public async login(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
+        try {
+            const account: string = (req.body.account).trim() || "";
+            const password: string = (req.body.password).trim() || "";
+
+            if (!account || !password) {
+                throw new Error("Missing Require Field.")
+            }
+
+            const token = await this._usersService.login(account, password)
+            res.status(200);
+            res.json({status: "Login successfully..", token});
+        }
+        catch (err) {
+            next(err)
+        }
+    }
+
+    // public async register(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
+    //     try {
+    //         const saltRound = 10;
+    //         const account: string = (req.body.account).trim() || "";
+    //         const password: string = (req.body.password).trim() || "";
+
+    //         if (!account || !password) {
+    //             throw new Error("Missing Require Field.")
+    //         }
+
+    //         const token = await this._usersService.login(account, password)
+    //         res.status(200);
+    //         res.json({status: "Login successfully..", token});
+    //     }
+    //     catch (err) {
+    //         next(err)
+    //     }
+    // }
 }
 
 export default UsersController;

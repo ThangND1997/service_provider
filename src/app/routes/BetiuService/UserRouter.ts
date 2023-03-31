@@ -7,9 +7,17 @@ const router = express.Router();
 const controller = iocContainer.get<IUsersController>(TYPES.USERS_CONTROLLER);
 
 router.route("/")
-    .post(controller.create.bind(controller));
-
-router.route("/")
+    .post(controller.create.bind(controller))
     .get(controller.search.bind(controller));
+
+router.route("/:id")
+    .put(controller.update.bind(controller))
+    .delete(controller.delete.bind(controller))
+
+router.route("/login")
+    .post(controller.login.bind(controller));
+
+// router.route("/register")
+//     .post(controller.register.bind(controller))
 
 export default router;

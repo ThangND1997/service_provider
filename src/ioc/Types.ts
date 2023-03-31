@@ -5,16 +5,17 @@ const TYPES = {
 
     // reposiory types:
     USERS_REPOSITORY: Symbol.for("UsersRepository"),
+    LOGIN_REPOSITORY: Symbol.for("LoginRepository"),
 
     // service types:
     USERS_SERVICE: Symbol.for("UsersService"),
+    LOGIN_SERVICE: Symbol.for("LoginService"),
 
     // controller types:
     USERS_CONTROLLER: Symbol.for("UsersController"),
+    LOGIN_CONTROLLER: Symbol.for("LoginController"),
 
     // handler types:
-    TAP_STATISTIC_HANDLER: Symbol.for("TapStatisticHandler"),
-    TAP_STATISTIC_SUBJECT_CHANGED_HANDLER: Symbol.for("TapStatisticSubjectChangedHandler"),
 };
 
 export { TYPES };
