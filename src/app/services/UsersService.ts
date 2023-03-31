@@ -40,7 +40,7 @@ class UsersService extends BaseService<IUsersRepository, UsersDto> implements IU
     }
 
     public async findById(id: string): Promise<any> {
-        return this.findById(id);
+        return id;
     }
 
     public async login(account: string, password: string): Promise<any> {

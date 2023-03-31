@@ -43,7 +43,7 @@ let UsersService = class UsersService extends _1.BaseService {
         return this.deleteById(id);
     }
     async findById(id) {
-        return this.findById(id);
+        return id;
     }
     async login(account, password) {
         const oldData = await this._usersRepository.findUserAccount(account);
