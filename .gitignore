@@ -68,3 +68,4 @@ server.key.pem
 
 
 .DS_Store
+.env
