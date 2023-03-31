@@ -7,7 +7,7 @@ import Router from "./app/routes"
 import { httpLogger } from "./middlewares/HttpLog";
 import cors from "./middlewares/Cors";
 
-const HTTP_PORT = Configuration.PORT || 3000;
+const HTTP_PORT = process.env.PORT || 3000;
 
 const startServer = () => {
     const app = express();
@@ -20,7 +20,7 @@ const startServer = () => {
     app.use(httpLogger());
     app.use(cors());
 
-    app.listen(HTTP_PORT, () => {
+    app.listen(process.env.PORT || 3000, () => {
         Logger.info(`HTTP Server Listening on ${HTTP_PORT}`);
     });
 };
