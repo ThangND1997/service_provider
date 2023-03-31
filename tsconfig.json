@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "typeRoots": [
+            "@types",
+            "node_modules/@types"
+        ],
+        "target": "es2017",
+        "module": "commonjs",
+        "lib": [
+            "es2017",
+            "dom"
+        ],
+        "allowJs": true,
+        "isolatedModules": false,
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "noImplicitThis": true,
+        "strictNullChecks": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "forceConsistentCasingInFileNames": true,
+        "outDir": "./build/",
+        "rootDir": "./src/"
+    },
+    "include": [
+        "./src/**/*.ts",
+        "./src/**/*.js",
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
+  }
