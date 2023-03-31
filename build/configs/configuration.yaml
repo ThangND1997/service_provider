@@ -9,4 +9,5 @@ database:
     password: 1q2w3e
     port: 5432
     secure: false
-    user: postgres
+    user: postgres,
+    ssl: true
