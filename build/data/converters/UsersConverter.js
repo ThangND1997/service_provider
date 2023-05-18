@@ -9,25 +9,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const inversify_1 = require("inversify");
 const dtos_1 = require("../dtos");
 const Contants_1 = require("../migrations/database/schemas/Contants");
+const exception_lib_1 = require("../../libs/exception.lib");
+const error_code_1 = require("../../libs/error_code");
+const http_code_1 = require("../../libs/http_code");
 let UsersConverter = class UsersConverter {
     async modelToDto(model) {
         const dto = new dtos_1.UsersDto();
         if (model) {
             dto.id = model[Contants_1.USERS_TABLE_SCHEMA.FIELDS.ID];
-            dto.isDeleted = model[Contants_1.USERS_TABLE_SCHEMA.FIELDS.IS_DELETED];
-            dto.isEnable = model[Contants_1.USERS_TABLE_SCHEMA.FIELDS.IS_ENABLE];
             dto.createdDate = model[Contants_1.USERS_TABLE_SCHEMA.FIELDS.CREATED_DATE];
             dto.updatedDate = model[Contants_1.USERS_TABLE_SCHEMA.FIELDS.UPDATED_DATE];
             dto.name = model[Contants_1.USERS_TABLE_SCHEMA.FIELDS.NAME] || "";
             dto.email = model[Contants_1.USERS_TABLE_SCHEMA.FIELDS.EMAIL] || "";
             dto.avatarUrl = model[Contants_1.USERS_TABLE_SCHEMA.FIELDS.AVATAR_URL] || "";
-            dto.password = model[Contants_1.USERS_TABLE_SCHEMA.FIELDS.PASSWORD] || "";
             dto.phone = model[Contants_1.USERS_TABLE_SCHEMA.FIELDS.PHONE_NUMBER] || "";
             dto.note = model[Contants_1.USERS_TABLE_SCHEMA.FIELDS.NOTE] || "";
             dto.role = model[Contants_1.USERS_TABLE_SCHEMA.FIELDS.ROLE] || "";
             dto.expiryDate = model[Contants_1.USERS_TABLE_SCHEMA.FIELDS.EXPIRY_DATE] || "";
             dto.status = model[Contants_1.USERS_TABLE_SCHEMA.FIELDS.STATUS] || "";
             dto.address = model[Contants_1.USERS_TABLE_SCHEMA.FIELDS.ADDRESS] || "";
+            dto.password = model[Contants_1.USERS_TABLE_SCHEMA.FIELDS.PASSWORD] || "";
         }
         return dto;
     }
@@ -50,8 +51,14 @@ let UsersConverter = class UsersConverter {
         model[Contants_1.USERS_TABLE_SCHEMA.FIELDS.ADDRESS] = dto.address;
         return model;
     }
-    async requestToDto(body) {
+    async createRequestToDto(body) {
+        if (!body.email) {
+            throw new exception_lib_1.default(error_code_1.default.RESOURCE.MISSING_FIELD.CODE, error_code_1.default.RESOURCE.MISSING_FIELD.MESSAGE, false, http_code_1.default.BAD_REQUEST);
+        }
         return body;
+    }
+    requestToDto(params) {
+        return params;
     }
 };
 UsersConverter = __decorate([

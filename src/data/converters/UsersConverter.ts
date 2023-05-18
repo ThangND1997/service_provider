@@ -3,6 +3,9 @@ import { UsersDto } from "../dtos";
 import { USERS_TABLE_SCHEMA } from "../migrations/database/schemas/Contants";
 import { UsersModel } from "../models";
 import IUsersConverter from "./IUsersConverter";
+import ExceptionModel from "../../libs/exception.lib";
+import ErrorCode from "../../libs/error_code";
+import HttpStatus from "../../libs/http_code";
 
 @injectable()
 class UsersConverter implements IUsersConverter {
@@ -11,21 +14,19 @@ class UsersConverter implements IUsersConverter {
 
         if (model) {
             dto.id = model[USERS_TABLE_SCHEMA.FIELDS.ID];
-            dto.isDeleted = model[USERS_TABLE_SCHEMA.FIELDS.IS_DELETED];
-            dto.isEnable = model[USERS_TABLE_SCHEMA.FIELDS.IS_ENABLE];
             dto.createdDate = model[USERS_TABLE_SCHEMA.FIELDS.CREATED_DATE];
             dto.updatedDate = model[USERS_TABLE_SCHEMA.FIELDS.UPDATED_DATE];
 
             dto.name = model[USERS_TABLE_SCHEMA.FIELDS.NAME] || "";
             dto.email = model[USERS_TABLE_SCHEMA.FIELDS.EMAIL] || "";
             dto.avatarUrl = model[USERS_TABLE_SCHEMA.FIELDS.AVATAR_URL] || "";
-            dto.password = model[USERS_TABLE_SCHEMA.FIELDS.PASSWORD] || "";
             dto.phone = model[USERS_TABLE_SCHEMA.FIELDS.PHONE_NUMBER] || "";
             dto.note = model[USERS_TABLE_SCHEMA.FIELDS.NOTE] || "";
             dto.role = model[USERS_TABLE_SCHEMA.FIELDS.ROLE] || "";
             dto.expiryDate = model[USERS_TABLE_SCHEMA.FIELDS.EXPIRY_DATE] || "";
             dto.status = model[USERS_TABLE_SCHEMA.FIELDS.STATUS] || "";
             dto.address = model[USERS_TABLE_SCHEMA.FIELDS.ADDRESS] || "";
+            dto.password = model[USERS_TABLE_SCHEMA.FIELDS.PASSWORD] || "";
         }
 
         return dto;
@@ -54,8 +55,20 @@ class UsersConverter implements IUsersConverter {
         return model;
     }
 
-    public async requestToDto(body: any): Promise<UsersDto> {
+    public async createRequestToDto(body: any): Promise<UsersDto> {
+        if (!body.email) {
+            throw new ExceptionModel(
+                ErrorCode.RESOURCE.MISSING_FIELD.CODE,
+                ErrorCode.RESOURCE.MISSING_FIELD.MESSAGE,
+                false,
+                HttpStatus.BAD_REQUEST
+            );
+        }
         return body;
+    }
+
+    public requestToDto(params: any): any {
+        return params;
     }
 }
 

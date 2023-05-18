@@ -8,6 +8,10 @@ const core_1 = require("./core");
 const routes_1 = require("./app/routes");
 const HttpLog_1 = require("./middlewares/HttpLog");
 const Cors_1 = require("./middlewares/Cors");
+const recover_1 = require("./middlewares/recover");
+const exception_lib_1 = require("./libs/exception.lib");
+const error_code_1 = require("./libs/error_code");
+const http_code_1 = require("./libs/http_code");
 const HTTP_PORT = process.env.PORT || 3000;
 const startServer = () => {
     const app = express();
@@ -18,6 +22,24 @@ const startServer = () => {
     app.use("/", routes_1.default);
     app.use(HttpLog_1.httpLogger());
     app.use(Cors_1.default());
+    app.use(recover_1.default((error, res) => {
+        core_1.Logger.error(error.message ? error.message : "Unknown error", error);
+        let err;
+        if (error.httpStatus != null) {
+            err = error;
+        }
+        else if (error) {
+            err = new exception_lib_1.default(error_code_1.default.RESOURCE.NOT_FOUND.CODE, error_code_1.default.RESOURCE.NOT_FOUND.MESSAGE, false, http_code_1.default.NOT_FOUND);
+        }
+        else {
+            err = exception_lib_1.default.fromError(error_code_1.default.UNKNOWN.GENERIC.CODE, err, true);
+        }
+        res.status(err.httpStatus);
+        err.name = undefined;
+        err.httpStatus = undefined;
+        err.stack = undefined;
+        res.json(err);
+    }));
     app.listen(process.env.PORT || 3000, () => {
         core_1.Logger.info(`HTTP Server Listening on ${HTTP_PORT}`);
     });

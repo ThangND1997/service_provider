@@ -4,6 +4,10 @@ import { IUsersConverter } from "../../data/converters";
 import { TYPES } from "../../ioc/Types";
 import IUsersService from "../services/IUsersService";
 import IUsersController from "./IUsersController";
+import { UsersDto } from "../../data/dtos";
+import ExceptionModel from "../../libs/exception.lib";
+import ErrorCode from "../../libs/error_code";
+import HttpStatus from "../../libs/http_code";
 
 @injectable()
 export class UsersController implements IUsersController {
@@ -15,7 +19,7 @@ export class UsersController implements IUsersController {
     
     public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
         try {
-            const params: any = await this._converter.requestToDto(req.body) || {};
+            const params: UsersDto = await this._converter.createRequestToDto(req.body) || {};
             const id = await this._usersService.create(params);
             res.json({status: "Insert data successfully..", id});
         }
@@ -26,8 +30,9 @@ export class UsersController implements IUsersController {
 
     public async search(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
         try {
-            const params: any = await this._converter.requestToDto(req.query) || {};
+            const params: UsersDto = await this._converter.requestToDto(req.query) || {};
             const result = await this._usersService.search(params);
+            delete result.password;
             res.status(200);
             res.json(result);
         }
@@ -39,7 +44,7 @@ export class UsersController implements IUsersController {
     public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
         try {
             let id: string = req.params.id;
-            const params: any = await this._converter.requestToDto(req.body) || {};
+            const params: UsersDto = await this._converter.requestToDto(req.body) || {};
             params.id = id;
             await this._usersService.update(params);
             res.status(200);
@@ -66,6 +71,8 @@ export class UsersController implements IUsersController {
         try {
             let id: string = req.params.id;
             const result = await this._usersService.findById(id);
+            delete result.password;
+
             res.status(200);
             res.json(result);
         }
@@ -80,12 +87,17 @@ export class UsersController implements IUsersController {
             const password: string = (req.body.password).trim() || "";
 
             if (!account || !password) {
-                throw new Error("Missing Require Field.")
+                throw new ExceptionModel(
+                    ErrorCode.RESOURCE.MISSING_FIELD.CODE,
+                    ErrorCode.RESOURCE.MISSING_FIELD.MESSAGE,
+                    false,
+                    HttpStatus.BAD_REQUEST
+                );
             }
 
             const token = await this._usersService.login(account, password)
             res.status(200);
-            res.json({status: "Login successfully..", token});
+            res.json({status: "Login successfully.", token});
         }
         catch (err) {
             next(err)

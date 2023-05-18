@@ -6,6 +6,11 @@ import { Configuration, Logger } from "./core";
 import Router from "./app/routes"
 import { httpLogger } from "./middlewares/HttpLog";
 import cors from "./middlewares/Cors";
+import recover from "./middlewares/recover";
+import ExceptionModel from "./libs/exception.lib";
+import BaseDto from "./data/dtos/BaseDto";
+import ErrorCode from "./libs/error_code";
+import HttpStatus from "./libs/http_code";
 
 const HTTP_PORT = process.env.PORT || 3000;
 
@@ -19,6 +24,29 @@ const startServer = () => {
     app.use("/", Router)
     app.use(httpLogger());
     app.use(cors());
+    app.use(recover((error: any, res: express.Response): void => {
+        Logger.error(error.message ? error.message : "Unknown error", error);
+        let err: any;
+        if (error.httpStatus != null) {
+            err = error as any;
+        } else if (error) {
+            // DB error: BaseDto.NotFoundError, BaseDto.NoRowsDeletedError, BaseDto.NoRowsUpdatedError
+            err = new ExceptionModel(
+                ErrorCode.RESOURCE.NOT_FOUND.CODE,
+                ErrorCode.RESOURCE.NOT_FOUND.MESSAGE,
+                false,
+                HttpStatus.NOT_FOUND,
+            );
+        } else {
+            err = ExceptionModel.fromError(ErrorCode.UNKNOWN.GENERIC.CODE, err, true);
+        }
+
+        res.status(err.httpStatus);
+        err.name = undefined;
+        err.httpStatus = undefined;
+        err.stack = undefined;
+        res.json(err);
+    }));
 
     app.listen(process.env.PORT || 3000, () => {
         Logger.info(`HTTP Server Listening on ${HTTP_PORT}`);

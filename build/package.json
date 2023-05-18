@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/.bin/tsc && cp -r ./src/configs ./build && cp package.json ./build/package.json",
+    "build": "rm -rf ./build && ./node_modules/.bin/tsc && cp -r ./src/configs ./build && cp package.json ./build/package.json",
     "dev:start": "node build/index.js",
-    "start": "index.js",
+    "start": "rm -rf ./build && ./node_modules/.bin/tsc && cp -r ./src/configs ./build && cp package.json ./build/package.json && node build/index.js",
     "migration:latest": "cd build && ../node_modules/.bin/knex --knexfile knexfile.js migrate:latest",
     "migration:rollback": "cd build && ../node_modules/.bin/knex --knexfile knexfile.js migrate:rollback",
     "migration:make": "./node_modules/.bin/knex --knexfile ./src/knexfile.ts migrate:make",
@@ -42,11 +42,13 @@
     "pino-std-serializers": "2.5.0",
     "redis": "3.1.2",
     "reflect-metadata": "0.1.13",
+    "stack-trace": "0.0.10",
     "string-format": "2.0.0",
     "transformer": "^1.2.8",
     "ulid": "2.3.0",
     "util": "0.12.3",
     "uuid": "^8.3.2",
+    "uuidv4": "^6.2.13",
     "wait-on": "5.2.0"
   },
   "devDependencies": {
@@ -58,6 +60,7 @@
     "@types/pino": "^7.0.5",
     "@types/uuid": "8.3.0",
     "@types/validator": "13.1.0",
+    "nodemon": "^2.0.22",
     "ts-node": "9.1.1",
     "typescript": "4.1.2"
   }

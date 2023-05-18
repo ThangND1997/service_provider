@@ -15,6 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const inversify_1 = require("inversify");
 const Types_1 = require("../../ioc/Types");
+const exception_lib_1 = require("../../libs/exception.lib");
+const error_code_1 = require("../../libs/error_code");
+const http_code_1 = require("../../libs/http_code");
 let UsersController = class UsersController {
     constructor(_usersService, _converter) {
         this._usersService = _usersService;
@@ -22,7 +25,7 @@ let UsersController = class UsersController {
     }
     async create(req, res, next) {
         try {
-            const params = await this._converter.requestToDto(req.body) || {};
+            const params = await this._converter.createRequestToDto(req.body) || {};
             const id = await this._usersService.create(params);
             res.json({ status: "Insert data successfully..", id });
         }
@@ -34,6 +37,7 @@ let UsersController = class UsersController {
         try {
             const params = await this._converter.requestToDto(req.query) || {};
             const result = await this._usersService.search(params);
+            delete result.password;
             res.status(200);
             res.json(result);
         }
@@ -69,6 +73,7 @@ let UsersController = class UsersController {
         try {
             let id = req.params.id;
             const result = await this._usersService.findById(id);
+            delete result.password;
             res.status(200);
             res.json(result);
         }
@@ -81,11 +86,11 @@ let UsersController = class UsersController {
             const account = (req.body.account).trim() || "";
             const password = (req.body.password).trim() || "";
             if (!account || !password) {
-                throw new Error("Missing Require Field.");
+                throw new exception_lib_1.default(error_code_1.default.RESOURCE.MISSING_FIELD.CODE, error_code_1.default.RESOURCE.MISSING_FIELD.MESSAGE, false, http_code_1.default.BAD_REQUEST);
             }
             const token = await this._usersService.login(account, password);
             res.status(200);
-            res.json({ status: "Login successfully..", token });
+            res.json({ status: "Login successfully.", token });
         }
         catch (err) {
             next(err);

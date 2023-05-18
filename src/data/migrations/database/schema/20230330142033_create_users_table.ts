@@ -16,10 +16,11 @@ export const up = async (knex: Knex): Promise<any> => {
             table.string(USERS_TABLE_SCHEMA.FIELDS.ADDRESS).nullable();
             table.string(USERS_TABLE_SCHEMA.FIELDS.AVATAR_URL).nullable();
             table.string(USERS_TABLE_SCHEMA.FIELDS.PHONE_NUMBER).nullable();
-            table.string(USERS_TABLE_SCHEMA.FIELDS.ROLE).nullable();
-            table.string(USERS_TABLE_SCHEMA.FIELDS.EMAIL).nullable();
-            table.string(USERS_TABLE_SCHEMA.FIELDS.STATUS).nullable();
-            table.string(USERS_TABLE_SCHEMA.FIELDS.PASSWORD).nullable();
+            table.string(USERS_TABLE_SCHEMA.FIELDS.ROLE).notNullable().defaultTo("user");
+            table.string(USERS_TABLE_SCHEMA.FIELDS.EMAIL).notNullable();
+            table.string(USERS_TABLE_SCHEMA.FIELDS.STATUS).notNullable().defaultTo("active");
+            table.string(USERS_TABLE_SCHEMA.FIELDS.ACCOUNT).nullable();
+            table.string(USERS_TABLE_SCHEMA.FIELDS.PASSWORD).notNullable();
         });
     }
 };

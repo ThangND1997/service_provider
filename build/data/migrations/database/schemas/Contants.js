@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.USERS_TABLE_SCHEMA = void 0;
+exports.SESSIONS_TABLE_SCHEMA = exports.PRODUCTS_TABLE_SCHEMA = exports.USERS_TABLE_SCHEMA = void 0;
 exports.USERS_TABLE_SCHEMA = {
     TABLE_NAME: "users",
     FIELDS: {
@@ -20,6 +20,36 @@ exports.USERS_TABLE_SCHEMA = {
         ROLE: "role",
         PASSWORD: "password",
         ACCOUNT: "account"
+    }
+};
+exports.PRODUCTS_TABLE_SCHEMA = {
+    TABLE_NAME: "products",
+    FIELDS: {
+        ID: "id",
+        IS_ENABLE: "is_enable",
+        IS_DELETED: "is_deleted",
+        CREATED_DATE: "created_date",
+        UPDATED_DATE: "updated_date",
+        TITLE: "title",
+        DESCRIPTION: "description",
+        PRICE: "price",
+        IMAGE_URL: "image_url",
+        SUB_IMAGES_URL: "sub_images_url",
+        IS_BEST_SELLER: "is_best_seller"
+    }
+};
+exports.SESSIONS_TABLE_SCHEMA = {
+    TABLE_NAME: "sessions",
+    FIELDS: {
+        ID: "id",
+        IS_ENABLE: "is_enable",
+        IS_DELETED: "is_deleted",
+        CREATED_DATE: "created_date",
+        UPDATED_DATE: "updated_date",
+        TOKEN: "token",
+        EXPIRE: "expire",
+        USER_ID: "user_id",
+        HASH: "hash"
     }
 };
 //# sourceMappingURL=Contants.js.map

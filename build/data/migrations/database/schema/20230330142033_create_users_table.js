@@ -15,10 +15,11 @@ const up = async (knex) => {
             table.string(Contants_1.USERS_TABLE_SCHEMA.FIELDS.ADDRESS).nullable();
             table.string(Contants_1.USERS_TABLE_SCHEMA.FIELDS.AVATAR_URL).nullable();
             table.string(Contants_1.USERS_TABLE_SCHEMA.FIELDS.PHONE_NUMBER).nullable();
-            table.string(Contants_1.USERS_TABLE_SCHEMA.FIELDS.ROLE).nullable();
-            table.string(Contants_1.USERS_TABLE_SCHEMA.FIELDS.EMAIL).nullable();
-            table.string(Contants_1.USERS_TABLE_SCHEMA.FIELDS.STATUS).nullable();
-            table.string(Contants_1.USERS_TABLE_SCHEMA.FIELDS.PASSWORD).nullable();
+            table.string(Contants_1.USERS_TABLE_SCHEMA.FIELDS.ROLE).notNullable().defaultTo("user");
+            table.string(Contants_1.USERS_TABLE_SCHEMA.FIELDS.EMAIL).notNullable();
+            table.string(Contants_1.USERS_TABLE_SCHEMA.FIELDS.STATUS).notNullable().defaultTo("active");
+            table.string(Contants_1.USERS_TABLE_SCHEMA.FIELDS.ACCOUNT).nullable();
+            table.string(Contants_1.USERS_TABLE_SCHEMA.FIELDS.PASSWORD).notNullable();
         });
     }
 };
