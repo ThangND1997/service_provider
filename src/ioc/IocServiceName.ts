@@ -1,0 +1,147 @@
+export const IOCServiceName = {
+    // handler
+    DEVICE_HANDLER: 'device.router_handler',
+    APP_SETTING_HANDLER: 'app_setting.router_handler',
+    TAP_VALIDATION_HANDLER: 'tap_validation.router_handler',
+    INTERCOM_VISITOR_HANDLER: 'intercom_visitor.router_handler',
+    VISITOR_HANDLER: 'visitor.router_handler',
+    COMMUNICATION_HANDLER: 'communication.router_handler',
+    MASTER_KEY_USER_HANDLER: 'master_key_user.router_handler',
+    CONDO_ALERT_HANDLER: 'condo_alert.router_handler',
+    OPEN_HISTORY_HANDLER: 'open_history.router_handler',
+    QR_QUOTA_HANDLER: 'qr_quota.router_handler',
+    LINK_HANDLER: 'link.router_handler',
+    BOOKING_HANDLER: 'booking.router_handler',
+    CARD_HANDLER: 'card.router_handler',
+    EMAIL_REPORT_SETTING_HANDLER: 'email_report_setting.router_handler',
+    BEACON_HANDLER: 'beacon.router_handler',
+
+    // service
+    DEVICE_SERVICE: 'device.service',
+    BOOKING_SERVICE: 'booking.service',
+    APP_SERVICE: 'app.service',
+    AUTH_SERVICE: 'auth.service',
+    INVITE_SERVICE: 'invite.service',
+    COMMUNICATION_SERVICE: 'communication.service',
+    INTERCOM_VISITOR_SERVICE: 'intercom_visitor.service',
+    DEVICE_ASSIGN_SERVICE: 'device_assign.service',
+    CARD_SERVICE: 'card.service',
+    CARD_ASSIGN_SERVICE: 'card_assign.service',
+    MASTER_KEY_USER_SERVICE: 'master_key_user.service',
+    OPEN_HISTORY_SERVICE: 'open_history.service',
+    CONDO_ALERT_SERVICE: 'condo_alert.service',
+    QR_QUOTA_SERVICE: 'qr_quota.service',
+    CODE_HISTORY_SERVICE: 'code_history.service',
+    BEACON_SERVICE: 'beacon.service',
+    NOTIFICATION_SERVICE: 'notification.service',
+    VISITOR_PIN_CODE_SERVICE: 'visitor_pin_code.service',
+    VISITOR_PIN_CODE_OPEN_HISTORY_SERVICE: 'visitor_pin_code_open_history.service',
+    EMAIL_REPORT_SETTING_SERVICE: 'email_report_setting.service',
+    OFFLINE_OPEN_HISTORY_SERVICE: 'offline_open_history.service',
+
+    // system
+    SYSTEM_CONFIG: 'system.config',
+
+    // postgres
+    DATABASE_CONNECTION: 'database.connection',
+
+    // repository
+    DEVICE_REPOSITORY: 'device.repository',
+    APP_SETTING_REPOSITORY: 'app_setting.repository',
+    RESTRICTION_BOOKING_RULE_REPOSITORY: 'restriction_booking_rule.repository',
+    RESTRICTION_DAY_OF_WEEK_RULE_REPOSITORY: 'restriction_day_of_week_rule.repository',
+    USER_REPOSITORY: 'user.repository',
+    USER_UNIT_REPOSITORY: 'user_unit.repository',
+    FACILITY_REPOSITORY: 'facility.repository',
+    CONDO_REPOSITORY: 'condo.repository',
+    BOOKING_REPOSITORY: 'booking.repository',
+    BOOKING_SESSION_REPOSITORY: 'booking_session.repository',
+    BOOKING_TAP_VALIDATION_REPOSITORY: 'booking_tap_validation.repository',
+    OPEN_HISTORY_REPOSITORY: 'open_history.repository',
+    SLOT_REPOSITORY: 'slot.repository',
+    DEVICE_ASSIGN_REPOSITORY: 'device_assign.repository',
+    INVITE_REPOSITORY: 'invite.repository',
+    QR_OPEN_HISTORY_REPOSITORY: 'qr_open_history.repository',
+    QR_QUOTA_REPOSITORY: 'qr_quota.repository',
+    INTERCOM_VISITOR_REPOSITORY: 'intercom_visitor.repository',
+    CARD_REPOSITORY: 'card.repository',
+    CARD_ASSIGN_REPOSITORY: 'card_assign.repository',
+    MASTER_KEY_USER_REPOSITORY: 'master_key_user.repository',
+    COUNTRY_REPOSITORY: 'country.repository',
+    CONDO_STAFF_REPOSITORY: 'condo_staff_repository',
+    USER_MANAGER_REPOSITORY: 'user_manager.repository',
+    UNIT_REPOSITORY: 'unit.repository',
+    CONDO_ALERT_REPOSITORY: 'condo_alert.repository',
+    FLOOR_REPOSITORY: 'floor.repository',
+    BLOCK_REPOSITORY: 'block.repository',
+    USER_SETTING_REPOSITOFY: 'user_setting.repositofy',
+    CODE_HISTORY_REPOSITORY: 'code_history.repository',
+    BEACON_REPOSITORY: 'beacon.repository',
+    VISITOR_PIN_CODE_REPOSITORY: 'visitor_pin_code.repository',
+    VISITOR_PIN_CODE_OPEN_HISTORY_REPOSITORY: 'visitor_pin_code_open_history.repository',
+    EMAIL_REPORT_SETTING_REPOSITORY: 'email_report_setting.repository',
+    OFFLINE_OPEN_HISTORY_REPOSITORY: 'offline_open_history.repository',
+    FAILED_OFFLINE_OPEN_HISTORY_REQUEST_REPOSITORY: 'failed_offline_open_history_request.repository',
+
+    // lib
+    LOGGER: 'logger.lib',
+    AWS: 'aws.lib',
+    SMS_HELPER: 'sms.lib',
+    VIDEO_CALL_HELPER: 'video.lib',
+    REDIS_CONNECTION: 'redis.connection',
+    FIREBASE_ADMIN: 'firebase_admin',
+    MAILER: 'mailer.lib',
+
+    // cache
+    DEVICE_CACHE: 'device.cache',
+
+    // event
+    EVENT_MANAGER: 'event_manager',
+    BOOKING_CORRECT_EVENT_HANDLER: 'booking_correct.event_handler',
+    BOOKING_CREATED_EVENT_HANDLER: 'booking_created.event_handler',
+    USER_UNIT_CHANGED_EVENT_HANDLER: 'user_unit_changed.event_handler',
+    BOOKING_UPDATED_EVENT_HANDLER: 'booking_updated.event_handler',
+    BOOKING_DELETED_EVENT_HANDLER: 'booking_deleted.event_handler',
+    OPEN_DOOR_BOOKING_EVENT_HANDLER: 'open_door_booking.event_handler',
+    VMS_PREREGISTER_CREATED_EVENT_HANDLER: 'vms_preregister_created.event_handler',
+    VMS_PREREGISTER_UPDATED_EVENT_HANDLER: 'vms_preregister_updated.event_handler',
+    VMS_PREREGISTER_DELETED_EVENT_HANDLER: 'vms_preregister_deleted.event_handler',
+    VISITOR_LOG_CREATED_EVENT_HANDLER: 'visitor_log_created.event_handler',
+    VISITOR_LOG_EXITED_EVENT_HANDLER: 'visitor_log_exited.event_handler',
+    USER_CONDO_STAFF_DELETED_EVENT_HANDLER: 'user_condo_staff_deleted_event_handler',
+    BLOCK_DELETED_EVENT_HANDLER: 'block_deleted_event_handler',
+    FLOOR_DELETED_EVENT_HANDLER: 'floor_deleted_event_handler',
+    UNIT_DELETED_EVENT_HANDLER: 'unit_deleted_event_handler',
+    OFFLINE_OPEN_HISTORY_SUBMITTED_HANDLER: 'offline_open_history_submitted_handler',
+
+    // register event
+    ACCESS_CONTROL_SUBSCRIBER: 'access_control.event_subscriber',
+
+    // publisher
+    BOOKING_OPEN_DOOR_PUBLISHER: 'booking_open_door.publisher',
+    BOOKING_PUBLISHER: 'booking.publisher',
+    VISITOR_PUBLISHER: 'visitor.publisher',
+    CARD_PUBLISHER: 'card.publisher',
+    EMAIL_PUBLISHER: 'email.publisher',
+    NOTIFICATION_PUBLISHER: 'notification.event_publisher',
+    OPEN_HISTORY_PUBLISHER: 'open_history.publisher',
+
+    // http client
+    VMS_HTTP_CLIENT: 'vms.http_client',
+    AUDIT_LOG_HTTP_CLIENT: 'audit_log.http_client',
+    AUTH_HTTP_CLIENT: 'auth.http_client',
+    DAC_COMELIT_HTTP_CLIENT: 'dac_comelit.http_client',
+
+    // device protocol
+    CT9_PRO_OTP_PROTOCOL: 'ct9_pro_otp.protocol',
+    CT9_PRO_QR_CODE_PROTOCOL: 'ct9_pro_qr_code.protocol',
+    CT9_PRO_BOOKING_PIN_CODE_PROTOCOL: 'ct9_pro_booking_pin_code.protocol',
+    CT9_PRO_PHONE_PIN_CODE_PROTOCOL: 'ct9_pro_phone_pin_code.protocol',
+    CT9_PRO_CARD_PROTOCOL: 'ct9_pro_card.protocol',
+    CT9_PRO_REMOTE_PROTOCOL: 'ct9_pro_remote.protocol',
+
+    // code generator
+    CT9_PRO_GUEST_CODE_GENERATOR: 'ct9_pro_guest_code.generator',
+    CT9_PRO_INTERCOM_CODE_GENERATOR: 'ct9_pro_intercom_code.generator',
+    CT9_PRO_OTP_GENERATOR: 'ct9_pro_otp.generator'
+};

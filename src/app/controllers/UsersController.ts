@@ -30,11 +30,11 @@ export class UsersController implements IUsersController {
 
     public async search(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
         try {
-            const params: UsersDto = await this._converter.requestToDto(req.query) || {};
-            const result = await this._usersService.search(params);
-            delete result.password;
+            const params: UsersDto = this._converter.requestToDto(req.query) || {};
+            const userInfor = await this._usersService.search(params);
+            delete userInfor[0].password;
             res.status(200);
-            res.json(result);
+            res.json(userInfor);
         }
         catch (err) {
             next(err)
@@ -44,7 +44,7 @@ export class UsersController implements IUsersController {
     public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
         try {
             let id: string = req.params.id;
-            const params: UsersDto = await this._converter.requestToDto(req.body) || {};
+            const params: UsersDto = this._converter.requestToDto(req.body) || {};
             params.id = id;
             await this._usersService.update(params);
             res.status(200);
@@ -72,7 +72,6 @@ export class UsersController implements IUsersController {
             let id: string = req.params.id;
             const result = await this._usersService.findById(id);
             delete result.password;
-
             res.status(200);
             res.json(result);
         }
@@ -104,24 +103,24 @@ export class UsersController implements IUsersController {
         }
     }
 
-    // public async register(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
-    //     try {
-    //         const saltRound = 10;
-    //         const account: string = (req.body.account).trim() || "";
-    //         const password: string = (req.body.password).trim() || "";
+    public async register(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
+        try {
+            const saltRound = 10;
+            const account: string = (req.body.account).trim() || "";
+            const password: string = (req.body.password).trim() || "";
 
-    //         if (!account || !password) {
-    //             throw new Error("Missing Require Field.")
-    //         }
+            if (!account || !password) {
+                throw new Error("Missing Require Field.")
+            }
 
-    //         const token = await this._usersService.login(account, password)
-    //         res.status(200);
-    //         res.json({status: "Login successfully..", token});
-    //     }
-    //     catch (err) {
-    //         next(err)
-    //     }
-    // }
+            const token = await this._usersService.login(account, password)
+            res.status(200);
+            res.json({status: "Login successfully..", token});
+        }
+        catch (err) {
+            next(err)
+        }
+    }
 }
 
 export default UsersController;

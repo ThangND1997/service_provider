@@ -8,9 +8,9 @@ import { httpLogger } from "./middlewares/HttpLog";
 import cors from "./middlewares/Cors";
 import recover from "./middlewares/recover";
 import ExceptionModel from "./libs/exception.lib";
-import BaseDto from "./data/dtos/BaseDto";
 import ErrorCode from "./libs/error_code";
 import HttpStatus from "./libs/http_code";
+import { errorHandler, notFoundHandler } from "./middlewares/ErrorHandler";
 
 const HTTP_PORT = process.env.PORT || 3000;
 
@@ -24,6 +24,8 @@ const startServer = () => {
     app.use("/", Router)
     app.use(httpLogger());
     app.use(cors());
+    app.use(notFoundHandler);
+    app.use(errorHandler);
     app.use(recover((error: any, res: express.Response): void => {
         Logger.error(error.message ? error.message : "Unknown error", error);
         let err: any;

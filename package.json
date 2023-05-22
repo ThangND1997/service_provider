@@ -45,6 +45,7 @@
     "stack-trace": "0.0.10",
     "string-format": "2.0.0",
     "transformer": "^1.2.8",
+    "typedi": "^0.10.0",
     "ulid": "2.3.0",
     "util": "0.12.3",
     "uuid": "^8.3.2",

@@ -18,7 +18,7 @@ class UsersDto extends BaseDto {
     public avatarUrl: string;
 
     @Expose()
-    public password: string;
+    public password?: string;
 
     @Expose()
     public isAdmin: boolean;

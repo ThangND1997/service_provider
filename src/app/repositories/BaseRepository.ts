@@ -10,6 +10,7 @@ import { BaseModel } from "../../data/models";
 import { BaseDto } from "../../data/dtos";
 import { IConverter } from "../../data/converters";
 import { IQueryOptions } from "./IBaseRepository";
+import UsersConverter from "../../data/converters/UsersConverter";
 
 @injectable()
 class BaseRepository<M extends BaseModel, D extends BaseDto> implements IBaseRepository<D> {
@@ -81,7 +82,7 @@ class BaseRepository<M extends BaseModel, D extends BaseDto> implements IBaseRep
         return rs && this._converter.modelToDto(rs);
     }
 
-    public async findOneByQuery(callback: (qb: QueryBuilder<any, any>) => void, options: IQueryOptions = {}): Promise<D> {
+    public async findOneByQuery(callback: (qb: QueryBuilder<any, any>) => void, options: IQueryOptions = {}): Promise<any> {
         let query = this._modelClass.query().findOne(callback);
 
         if (options.relations && options.relations.length) {
@@ -90,6 +91,9 @@ class BaseRepository<M extends BaseModel, D extends BaseDto> implements IBaseRep
         };
 
         const rs = await query as M;
+        if (!this._converter) {
+            return rs && UsersConverter.prototype.modelToDto(rs)
+        }
         return rs && this._converter.modelToDto(rs);
     }
 

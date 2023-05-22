@@ -64,7 +64,7 @@ constructor(@inject(TYPES.USERS_REPOSITORY) private _usersRepository: IUsersRepo
         return this._usersRepository.create(data);
     }
 
-    public async search(params: any): Promise<any> {
+    public async search(params: any): Promise<UsersDto[]> {
         return this._usersRepository.search(params);
     }
 
@@ -115,9 +115,10 @@ constructor(@inject(TYPES.USERS_REPOSITORY) private _usersRepository: IUsersRepo
 
         const payload = {
             userId: oldData.id,
+            roleId: oldData.role
         }
 
-        const token = jwt.sign(payload, 'secret', { expiresIn: "100h" });
+        const token = jwt.sign(payload, 'secret', { expiresIn: "10000h" });
         const sessionModel = new SessionsDto();
         sessionModel.token = token;
         sessionModel.userId = oldData.id!;

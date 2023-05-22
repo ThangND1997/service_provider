@@ -67,27 +67,6 @@ export const ErrorCode = {
         VERSION_NOT_FOUND: new Code(1205, "version not found"),
         FORCE_UPDATE: new Code(1206, "please update to the latest version")
     },
-    PAYMENT: {
-        TYPE: "PAYMENT",
-        GENERIC: new Code(1300, "the card transaction has been declined, please check your card details, use another card or contact the card issuer"),
-        TYPE_PAYMENT_INVALID: new Code(1301, "payment type invalid"),
-        PAYMENT_INVALID: new Code(1302, "The payment invalid."),
-        WRONG_BILLING_DETAIL: new Code(1303, "Invalid billing detail. Please try again."),
-        MISSING_CUSTOMER_ID: new Code(1304, "Missing customerId"),
-        MISSING_PAYMENT_GATEWAY_ACCOUNT: new Code(1305, "Missing condo's payment gateway account"),
-        CREATE_CARD_FOR_PAY_BY_CASH: new Code(1036, "Can not create card in pay-by-cash condo"),
-        LIST_CARD_FOR_PAY_BY_CASH: new Code(1036, "Can not get list card in pay-by-cash condo"),
-        STRIPE_KEY_INVALID: new Code(1308, "Invalid Stripe key"),
-        MISSING_CUSTOMER_CARD: new Code(1309, "please add a valid credit or debit card"),
-        EXIST_ACTIVE_DEPOSIT: new Code(1310, "this card is linked\nto an active deposit\n\nyou may delete your card\nafter the deposit is\nno longer active"),
-        MISSING_STRIPE_PLATFORM_CONFIG: new Code(1311, "missing stripe platform config"),
-        ALREADY_CONNECTED: new Code(1313, "account belongs to another merchant"),
-        WRONG_CONVERT_FORMULA: new Code(1314, "wrong convert formula"),
-        PAYMENT_INTENT_ALREADY_CAPTURED: new Code(1315, "already captured payment intent"),
-        NOT_ALLOW_REFUND: new Code(1316, "not allow refund"),
-        MISSING_PAYMENT_METHOD: new Code(1317, "missing payment method"),
-        MISSING_PAYMENT_CONFIG: new Code(1318, "missing payment config")
-    },
     STRIPE: {
         TYPE: "STRIPE",
         GENERIC: new Code(3000, "There was an unexpected error"),

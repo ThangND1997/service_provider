@@ -8,13 +8,18 @@ import { UsersModel } from "../../data/models";
 import { UsersDto } from "../../data/dtos";
 import { IUsersConverter } from "../../data/converters";
 import { USERS_TABLE_SCHEMA } from "../../data/migrations/database/schemas/Contants";
+import { Service } from "typedi";
+import { IOCServiceName } from "../../ioc/IocServiceName";
 
 
 @injectable()
+@Service(IOCServiceName.USER_REPOSITORY)
 export class UsersRepository extends BaseRepository<UsersModel, UsersDto> implements IUsersRepository {
-    constructor(@inject(TYPES.USERS_CONVERTER) converter: IUsersConverter) {
-        super(UsersModel, converter);
+    
+    constructor(@inject(TYPES.USERS_CONVERTER)  _converter: IUsersConverter) {
+        super(UsersModel, _converter);
     }
+
     public async create(params: any): Promise<any> {
         return this.insert(params);
     }
@@ -56,6 +61,12 @@ export class UsersRepository extends BaseRepository<UsersModel, UsersDto> implem
         })
     }
 
-}
+    public async getById(id: string): Promise<any> {
+        const result = await this.findOneByQuery(q => {
+            q.where(USERS_TABLE_SCHEMA.FIELDS.ID, id);
+        })
+        return result;
+    }
 
+}
 export default UsersRepository;
