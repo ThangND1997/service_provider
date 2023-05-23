@@ -1,0 +1,11 @@
+
+database:
+  postgres:
+    database: ""
+    debug: false
+    host: ""
+    password: ""
+    port: 5432
+    secure: false
+    user: thangnd
+    ssl: true
