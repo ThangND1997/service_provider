@@ -61,7 +61,7 @@ export const ErrorCode = {
         TYPE: "Privilege",
         GENERIC: new Code(1200, "unknown privilege's error."),
         NOT_ALLOW: new Code(1201, "you do not have permission to access."),
-        NOT_ALLOW_CONDO_LESS: new Code(1202, "you do not have a condo to access."),
+        MISSING_TOKEN_VERIFY: new Code(1202, "missing token. You do not to access."),
         SUPPORT_ONLY_FOR_RESIDENT_USER: new Code(1203, "the management has disabled your access to book facilities\nplease contact the management office for more information\nthank you"),
         INVALID_VERSION: new Code(1204, "invalid version format"),
         VERSION_NOT_FOUND: new Code(1205, "version not found"),

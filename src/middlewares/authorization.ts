@@ -15,7 +15,13 @@ export const verifyContext = (): express.RequestHandler => {
                 const _userRepository = Container.get<IUsersRepository>(IOCServiceName.USER_REPOSITORY);
                 const authHeader = req.headers['authorization'];
                 const token = authHeader && authHeader.split(' ')[1];
-                if (token == null) return res.sendStatus(401);
+                if (token == null) {
+                    throw new ExceptionModel(
+                        ErrorCode.PRIVILEGE.MISSING_TOKEN_VERIFY.CODE,
+                        ErrorCode.PRIVILEGE.MISSING_TOKEN_VERIFY.MESSAGE,
+                        false,
+                        HttpStatus.FORBIDDEN)
+                }
                 jwt.verify(token, "secret", async (err: any, data: any) => {
                     console.log(err)
         
