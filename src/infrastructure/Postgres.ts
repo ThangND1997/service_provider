@@ -4,6 +4,7 @@ import * as Knex from "knex";
 import * as waitOn from "wait-on"
 import * as fs from "fs";
 import { Configuration, Logger } from "../core";
+import 'dotenv/config'
 
 export class Connection {
     private _knexInstance: Knex;

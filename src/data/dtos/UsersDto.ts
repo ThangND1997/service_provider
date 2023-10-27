@@ -35,6 +35,8 @@ class UsersDto extends BaseDto {
     @Expose()
     public address: string;
 
+    @Expose()
+    public account: string;
 
     @Expose()
     public expiryDate: momentTz.Moment

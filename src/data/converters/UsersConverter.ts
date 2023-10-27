@@ -6,6 +6,8 @@ import IUsersConverter from "./IUsersConverter";
 import ExceptionModel from "../../libs/exception.lib";
 import ErrorCode from "../../libs/error_code";
 import HttpStatus from "../../libs/http_code";
+import * as _ from "lodash";
+import { ROLE, STATUS } from "../../libs/Contant";
 
 @injectable()
 class UsersConverter implements IUsersConverter {
@@ -26,7 +28,6 @@ class UsersConverter implements IUsersConverter {
             dto.expiryDate = model[USERS_TABLE_SCHEMA.FIELDS.EXPIRY_DATE] || "";
             dto.status = model[USERS_TABLE_SCHEMA.FIELDS.STATUS] || "";
             dto.address = model[USERS_TABLE_SCHEMA.FIELDS.ADDRESS] || "";
-            dto.password = model[USERS_TABLE_SCHEMA.FIELDS.PASSWORD] || "";
         }
 
         return dto;
@@ -49,8 +50,9 @@ class UsersConverter implements IUsersConverter {
         model[USERS_TABLE_SCHEMA.FIELDS.PASSWORD] = dto.password;
         model[USERS_TABLE_SCHEMA.FIELDS.AVATAR_URL] = dto.avatarUrl;
         model[USERS_TABLE_SCHEMA.FIELDS.NOTE] = dto.note;
-        model[USERS_TABLE_SCHEMA.FIELDS.AVATAR_URL] = dto.expiryDate;
+        model[USERS_TABLE_SCHEMA.FIELDS.EXPIRY_DATE] = dto.expiryDate;
         model[USERS_TABLE_SCHEMA.FIELDS.ADDRESS] = dto.address;
+        model[USERS_TABLE_SCHEMA.FIELDS.ACCOUNT] = dto.account;
 
         return model;
     }
@@ -69,6 +71,19 @@ class UsersConverter implements IUsersConverter {
 
     public requestToDto(params: any): any {
         return params;
+    }
+
+    public registerRequestToDto(body: any): UsersDto {
+        const dto = new UsersDto();
+        dto.status = STATUS.PENDING
+        dto.name = body.name;
+        dto.email = body.email;
+        dto.account = body.account;
+        dto.password = body.password;
+        dto.avatarUrl = body.avatarUrl;
+        dto.phone = body.phone;
+        dto.role = ROLE.USER
+        return dto;
     }
 }
 

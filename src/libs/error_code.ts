@@ -19,6 +19,7 @@ export const ErrorCode = {
         UPGRADE_NEEDED: new Code(2, "Please update new version"),
         MAINTENANCE_PERIOD: new Code(3, "Maintenance period"),
         APOCALYPSE: new Code(13, "The world is end"),
+        INVALID_QUANTITY: new Code(13, "Số lượng mặt hàng nhập không được phép."),
     },
     RESOURCE: {
         TYPE: "Resource.",
@@ -27,8 +28,7 @@ export const ErrorCode = {
         MISSING_FIELD: new Code(10003, "Thiếu field bắt buộc."),
         INVALID_ACCOUNT: new Code(10003, "Tài khoản không tồn tại."),
         EXISTED_ACCOUNT: new Code(10003, "Dữ liệu tài khoản đã tồn tại trong hệ thống."),
-        NOT_EXIST_DATA: new Code(10003, "Dữ liệu không tồn tại trong hệ thống."),
-        
+        NOT_EXIST_DATA: new Code(10003, "Dữ liệu không tồn tại trong hệ thống."),        
     },
     AUTHENTICATION: {
         TYPE: "Authentication.",

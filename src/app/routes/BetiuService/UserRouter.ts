@@ -13,9 +13,9 @@ router.route("/")
     .get(verifyContext(), hasPrivilege([ROLE.USER, ROLE.ADMIN]), controller.search.bind(controller));
 
 router.route("/:id")
-    .get(controller.view.bind(controller))
-    .put(controller.update.bind(controller))
-    .delete(controller.delete.bind(controller))
+    .get(verifyContext(), hasPrivilege([ROLE.ADMIN, ROLE.USER]), controller.view.bind(controller))
+    .put(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.update.bind(controller))
+    .delete(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.delete.bind(controller))
 
 router.route("/login")
     .post(controller.login.bind(controller));

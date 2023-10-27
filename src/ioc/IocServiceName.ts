@@ -82,6 +82,8 @@ export const IOCServiceName = {
     EMAIL_REPORT_SETTING_REPOSITORY: 'email_report_setting.repository',
     OFFLINE_OPEN_HISTORY_REPOSITORY: 'offline_open_history.repository',
     FAILED_OFFLINE_OPEN_HISTORY_REQUEST_REPOSITORY: 'failed_offline_open_history_request.repository',
+    PRODUCTS_WAREHOUSE_REPOSITORY: 'products_warehouse.repository',
+    PRODUCTS_CATEGORY_REPOSITORY: 'products_category.repository',
 
     // lib
     LOGGER: 'logger.lib',

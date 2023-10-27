@@ -8,6 +8,7 @@ import { UsersDto } from "../../data/dtos";
 import ExceptionModel from "../../libs/exception.lib";
 import ErrorCode from "../../libs/error_code";
 import HttpStatus from "../../libs/http_code";
+import Utils from "../../libs/utils";
 
 @injectable()
 export class UsersController implements IUsersController {
@@ -105,17 +106,12 @@ export class UsersController implements IUsersController {
 
     public async register(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
         try {
-            const saltRound = 10;
-            const account: string = (req.body.account).trim() || "";
-            const password: string = (req.body.password).trim() || "";
-
-            if (!account || !password) {
-                throw new Error("Missing Require Field.")
-            }
-
-            const token = await this._usersService.login(account, password)
+            const usersDto: UsersDto = this._converter.registerRequestToDto(req.body) || {};
+            
+            await this._usersService.create(usersDto);
+            
             res.status(200);
-            res.json({status: "Login successfully..", token});
+            res.json({status: "Register successfully.."});
         }
         catch (err) {
             next(err)

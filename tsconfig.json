@@ -20,7 +20,7 @@
         "strictNullChecks": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "suppressImplicitAnyIndexErrors": true,
+        // "suppressImplicitAnyIndexErrors": true,
         "forceConsistentCasingInFileNames": true,
         "outDir": "./build/",
         "rootDir": "./src/"

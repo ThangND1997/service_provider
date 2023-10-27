@@ -3,6 +3,7 @@
 import * as fs from "fs";
 import * as yaml from "js-yaml";
 import * as path from "path";
+import 'dotenv/config'
 
 
 // const loadSetting = (): any => {
@@ -57,13 +58,13 @@ import * as path from "path";
 module.exports = {
   client: "pg",
   connection: {
-    host: "dpg-cggjd1ceoogqfc2p63ag-a.singapore-postgres.render.com",
+    host: process.env.POSTGRES_HOST,
     port: 5432,
-    user: "thangnd",
-    database: "users_vjyz",
+    user: "betiu_user",
+    database: "betiu",
     charset: "utf8mb4",
     timezone: "UTC",
-    password: "Uj0X5HamHbIFTnzWwL4cuLI6CsVynMfj",
+    password: process.env.PASSWORD,
     ssl: true
   },
   version: "9.4",

@@ -24,7 +24,7 @@ constructor(@inject(TYPES.USERS_REPOSITORY) private _usersRepository: IUsersRepo
     }
 
     saltRound = 10;
-    
+
     public async create(data: UsersDto): Promise<any> {
         const verifyUser = await this._usersRepository.findUserByEmail(data.email);
         if (verifyUser) {
