@@ -23,8 +23,6 @@ export const verifyContext = (): express.RequestHandler => {
                         HttpStatus.FORBIDDEN)
                 }
                 jwt.verify(token, "secret", async (err: any, data: any) => {
-                    console.log(err)
-        
                     if (err || !data || !data.userId || !data.roleId) {
                         throw new ExceptionModel(
                             ErrorCode.PRIVILEGE.NOT_ALLOW.CODE,

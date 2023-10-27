@@ -19,11 +19,11 @@ const startServer = () => {
 
     app.use(express.json({ limit: "5mb" }));
     app.use(express.urlencoded({ limit: "5mb", extended: false }));
+    app.use(cors());
     app.use(helmet());
     app.use(compression());
     app.use("/", Router)
     app.use(httpLogger());
-    app.use(cors());
     app.use(notFoundHandler);
     app.use(errorHandler);
     app.use(recover((error: any, res: express.Response): void => {
