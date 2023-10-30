@@ -10,7 +10,13 @@ const controller = iocContainer.get<IUsersController>(TYPES.USERS_CONTROLLER);
 
 router.route("/")
     .post(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.create.bind(controller))
-    .get(verifyContext(), hasPrivilege([ROLE.USER, ROLE.ADMIN]), controller.search.bind(controller));
+    .get(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.search.bind(controller));
+
+router.route("/:id/approve")
+    .post(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.approve.bind(controller));
+
+router.route("/:id/reject")
+    .post(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.reject.bind(controller));    
 
 router.route("/:id")
     .get(verifyContext(), hasPrivilege([ROLE.ADMIN, ROLE.USER]), controller.view.bind(controller))

@@ -13,6 +13,7 @@ import ExceptionModel from "../../libs/exception.lib";
 import { Logger } from "../../core";
 import ISessionsRepository from "../repositories/ISessionsRepository";
 import * as momentTz from "moment-timezone";
+import { STATUS } from "../../libs/Contant";
 
 @injectable()
 class UsersService extends BaseService<IUsersRepository, UsersDto> implements IUsersService {
@@ -89,6 +90,39 @@ constructor(@inject(TYPES.USERS_REPOSITORY) private _usersRepository: IUsersRepo
 
     public async findById(id: string): Promise<UsersDto> {
         return this._usersRepository.findById(id);
+    }
+
+
+    public async approve(id: string): Promise<string> {
+        const oldData = await this._usersRepository.findById(id);
+        if (!oldData || oldData.status !== STATUS.PENDING) {
+            throw new ExceptionModel(
+                ErrorCode.RESOURCE.INVALID_REQUEST.CODE,
+                ErrorCode.RESOURCE.INVALID_REQUEST.MESSAGE,
+                false,
+                HttpStatus.BAD_REQUEST
+            );
+        }
+        // update
+        const userDto = new UsersDto();
+        userDto.status = STATUS.ACTIVE;
+        return this._usersRepository.updateById(id, userDto)
+    }
+
+    public async reject(id: string): Promise<string> {
+        const oldData = await this._usersRepository.findById(id);
+        if (!oldData || oldData.status !== STATUS.PENDING) {
+            throw new ExceptionModel(
+                ErrorCode.RESOURCE.INVALID_REQUEST.CODE,
+                ErrorCode.RESOURCE.INVALID_REQUEST.MESSAGE,
+                false,
+                HttpStatus.BAD_REQUEST
+            );
+        }
+        // update
+        const userDto = new UsersDto();
+        userDto.status = STATUS.ARCHIVED;
+        return this._usersRepository.updateById(id, userDto)
     }
 
     public async login(account: string, password: string): Promise<any> {

@@ -8,6 +8,8 @@ interface IUsersController {
     delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any>;
     login(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any>;
     register(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any>;
+    approve(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any>;
+    reject(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any>;
 }
 
 export default IUsersController;

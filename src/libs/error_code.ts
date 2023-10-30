@@ -29,6 +29,7 @@ export const ErrorCode = {
         INVALID_ACCOUNT: new Code(10003, "Tài khoản không tồn tại."),
         EXISTED_ACCOUNT: new Code(10003, "Dữ liệu tài khoản đã tồn tại trong hệ thống."),
         NOT_EXIST_DATA: new Code(10003, "Dữ liệu không tồn tại trong hệ thống."),        
+        INVALID_REQUEST: new Code(10003, "Dữ liệu yêu cầu đến hệ thống khôngg hợp lệ."),        
     },
     AUTHENTICATION: {
         TYPE: "Authentication.",

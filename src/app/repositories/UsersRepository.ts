@@ -10,6 +10,7 @@ import { IUsersConverter } from "../../data/converters";
 import { USERS_TABLE_SCHEMA } from "../../data/migrations/database/schemas/Contants";
 import { Service } from "typedi";
 import { IOCServiceName } from "../../ioc/IocServiceName";
+import { STATUS } from "../../libs/Contant";
 
 
 @injectable()
@@ -28,6 +29,7 @@ export class UsersRepository extends BaseRepository<UsersModel, UsersDto> implem
         const name = params.name || "";
         const email = params.email || "";
         const status = params.status || "";
+        const roleId = params.roleId || "";
         return this.findByQuery(q => {
             q.where(USERS_TABLE_SCHEMA.FIELDS.IS_DELETED, false);
             q.where(USERS_TABLE_SCHEMA.FIELDS.IS_ENABLE, true);
@@ -40,6 +42,9 @@ export class UsersRepository extends BaseRepository<UsersModel, UsersDto> implem
             }
             if (status) {
                 q.where(USERS_TABLE_SCHEMA.FIELDS.STATUS, status);
+            }
+            if (roleId) {
+                q.where(USERS_TABLE_SCHEMA.FIELDS.ROLE, roleId);
             }
 
             q.offset(params.offset || 0);
@@ -56,8 +61,13 @@ export class UsersRepository extends BaseRepository<UsersModel, UsersDto> implem
 
     public async findUserAccount(account: string): Promise<UsersDto> {
         return this.findOneByQuery(q => {
-            q.where(USERS_TABLE_SCHEMA.FIELDS.EMAIL, account);
-            q.orWhere(USERS_TABLE_SCHEMA.FIELDS.ACCOUNT, account)
+            q.where(USERS_TABLE_SCHEMA.FIELDS.IS_DELETED, false);
+            q.where(USERS_TABLE_SCHEMA.FIELDS.IS_ENABLE, true);
+            q.where(USERS_TABLE_SCHEMA.FIELDS.STATUS, STATUS.ACTIVE);
+            q.where(q1 => {
+                q1.where(USERS_TABLE_SCHEMA.FIELDS.EMAIL, account);
+                q1.orWhere(USERS_TABLE_SCHEMA.FIELDS.ACCOUNT, account)
+            })
         })
     }
 
