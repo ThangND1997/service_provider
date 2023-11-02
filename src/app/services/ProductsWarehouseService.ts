@@ -10,16 +10,18 @@ import * as bcrypt from "bcrypt";
 import ErrorCode from "../../libs/error_code";
 import HttpStatus from "../../libs/http_code";
 import ExceptionModel from "../../libs/exception.lib";
+import * as _ from "lodash"
 import { Logger } from "../../core";
 import ISessionsRepository from "../repositories/ISessionsRepository";
 import * as momentTz from "moment-timezone";
 import IProductsWarehouseRepository from "../repositories/IProductsWarehouseRepository";
 import ProductsWarehouseDto from "../../data/dtos/ProductsWarehouseDto";
 import ProductsCategoryDto from "../../data/dtos/ProductsCategory";
-import { PRODUCTS_CATEGORY_TABLE_SCHEMA } from "../../data/migrations/database/schemas/Contants";
+import { PRODUCTS_CATEGORY_TABLE_SCHEMA, PRODUCTS_WAREHOUSE_TABLE_SCHEMA, TRANSACTION_HISTORY_TABLE_SCHEMA } from "../../data/migrations/database/schemas/Contants";
 import IProductsCategoryRepository from "../repositories/IProductsCategoryRepository";
 import TransactionHistoryDto from "../../data/dtos/TransactionHistoryDto";
 import ITransactionHistoryRepository from "../repositories/ITransactionHistoryRepository";
+import TransactionHistoryWrapper, { ChartTransactionHistory, SummaryTransactionHistory } from "../../data/dtos/TransactionHistoryWrapper";
 
 @injectable()
 class ProductsWarehouseService extends BaseService<IProductsWarehouseRepository, ProductsWarehouseDto> implements IProductsWarehouseService {
@@ -65,6 +67,76 @@ constructor(
             );
         }
         return this._productsWarehouseRepository.deleteById(id);
+    }
+
+    public buildHourlyChartData(chartOptions: {
+        reportData: any[],
+        startDate: momentTz.Moment,
+        endDate: momentTz.Moment
+    }): ChartTransactionHistory[] {
+        let hourSeries: momentTz.Moment[] = [chartOptions.startDate];
+        for (let i = 0; i < 23; i++) {
+            if (hourSeries[i].isAfter(chartOptions.endDate)) {
+                break;
+            }
+            let tempDate = hourSeries[i].clone().add(1, "hour").utc();
+            hourSeries.push(tempDate);
+        }
+        const chartData: ChartTransactionHistory[] = [];
+        for (const report of chartOptions.reportData) {
+            const index = _.findIndex(chartData, i => i.name === report.name);
+                if (index !== -1) {
+                    chartData[index].data = this.replacePutProductsToArray(report.datetime, report.quantity, hourSeries, chartData[index].data);
+                }else {
+                    const item = {
+                        name: report.name,
+                        data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+                    }
+                    item.data = this.replacePutProductsToArray(report.datetime, report.quantity, hourSeries, item.data);
+                    chartData.push(item)
+                }
+        }
+        return chartData;
+    }
+
+    private replacePutProductsToArray(datetime: momentTz.Moment, quantity: number, hourSeries: momentTz.Moment[], data: number[]): number[] {
+        const dataClone: number[] = data;
+        _.forEach(hourSeries, (currentTime, index) => {
+            if (momentTz(datetime).isSame(currentTime.utc())) {
+                dataClone[index] += Number(quantity);
+                return dataClone;
+            }
+        } )
+
+        return dataClone;
+    }
+
+    public async report(queryParams: any): Promise<TransactionHistoryWrapper> {
+        const dtos = await this._transactionHistoryRepository.getByQuery(queryParams);
+        const trackingData = await this._transactionHistoryRepository.countTrackingByQuery(queryParams);
+        let totalPriceCharge = 0;
+        let totalNumberOfProducts = 0;
+        const charts: ChartTransactionHistory[] = this.buildHourlyChartData({
+            reportData: trackingData,
+            startDate: momentTz().startOf("days"),
+            endDate: momentTz().endOf("days"),
+        });
+        
+        for (const sum of dtos) {
+            totalPriceCharge += sum.priceCharge;
+            totalNumberOfProducts += sum.numberOfProducts;
+        }
+
+        const summary: SummaryTransactionHistory = {
+            totalPriceCharge,
+            totalNumberOfProducts
+        };
+
+        const result = new TransactionHistoryWrapper()
+        result.data = dtos;
+        result.summary = summary;
+        result.charts = charts;
+        return result;
     }
 
     public async release(ctx: any, id: string, numb: number): Promise<boolean> {

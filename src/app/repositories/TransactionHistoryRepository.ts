@@ -13,7 +13,7 @@ import ProductsWarehouseModel from "../../data/models/ProductsWarehouseModel";
 import ProductsWarehouseDto from "../../data/dtos/ProductsWarehouseDto";
 import IProductionConverter from "../../data/converters/IProductsWarehouseConverter";
 import IProductsWarehouseConverter from "../../data/converters/IProductsWarehouseConverter";
-import { PRODUCTS_WAREHOUSE_TABLE_SCHEMA } from "../../data/migrations/database/schemas/Contants";
+import { PRODUCTS_WAREHOUSE_TABLE_SCHEMA, TRANSACTION_HISTORY_TABLE_SCHEMA } from "../../data/migrations/database/schemas/Contants";
 import ProductsCategoryDto from "../../data/dtos/ProductsCategory";
 import ProductsCategoryModel from "../../data/models/ProductsCategoryModel";
 import IProductsCategoryConverter from "../../data/converters/IProductsCategoryConverter";
@@ -28,6 +28,52 @@ export class TransactionHistoryRepository extends BaseRepository<TransactionHist
     
     constructor(@inject(TYPES.TRANSACTION_HISTORY_CONVERTER)  _converter: ITransactionHistoryConverter) {
         super(TransactionHistoryModel, _converter);
+    }
+
+    private query(queryParams: any) {
+        return (q: any) => {
+            q.where(TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.IS_DELETED, false)
+            q.where(TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.IS_ENABLE, true)
+            if (queryParams.startDate) {
+                q.where(TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE, ">=", queryParams.startDate.toISOString())
+            }
+            if (queryParams.endDate) {
+                q.where(TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE, "<", queryParams.endDate.toISOString())
+            }
+        }
+    }
+
+    public async getByQuery(queryParams: any): Promise<TransactionHistoryDto[]> {
+        return this.findByQuery(this.query(queryParams));
+    }
+
+    public async countTrackingByQuery(queryParams: any): Promise<any> {
+        let queryStartDate = "";
+        let queryEndDate = "";
+        if (queryParams.startDate) {
+            queryStartDate = `AND a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE} >= ${queryParams.startDate.toISOString()}`
+        }
+        if (queryParams.endDate) {
+            queryEndDate = `AND a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE} < ${queryParams.endDate.toISOString()}`
+        }
+        return this.rawQuery(
+            `SELECT COUNT
+                (a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE}) AS COUNT,
+                SUM (a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.NUMBER_OF_PRODUCTS}) AS quantity,
+                b.${PRODUCTS_WAREHOUSE_TABLE_SCHEMA.FIELDS.NAME},
+                date_trunc( 'hour', a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE} ) AS dateTime 
+            FROM
+                ${TRANSACTION_HISTORY_TABLE_SCHEMA.TABLE_NAME} a
+            INNER JOIN ${PRODUCTS_WAREHOUSE_TABLE_SCHEMA.TABLE_NAME} b on b.${PRODUCTS_WAREHOUSE_TABLE_SCHEMA.FIELDS.ID} = a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.PRODUCTS_WAREHOUSE_ID}
+            WHERE
+                    a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.IS_DELETED} = false
+                AND
+                    a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.IS_ENABLE} = true
+                    ${queryStartDate}
+                    ${queryEndDate}
+            GROUP BY
+                date_trunc('hour', a.created_date), a."number_of_products", b."name"`
+        );
     }
 }
 export default TransactionHistoryRepository;

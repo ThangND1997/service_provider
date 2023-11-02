@@ -1,6 +1,7 @@
 import { UsersDto } from "../../data/dtos";
 import ProductsCategoryDto from "../../data/dtos/ProductsCategory";
 import ProductsWarehouseDto from "../../data/dtos/ProductsWarehouseDto";
+import TransactionHistoryWrapper from "../../data/dtos/TransactionHistoryWrapper";
 interface IProductsWarehouseService {
     create(params: any): Promise<any>;
     search(params: any): Promise<ProductsWarehouseDto[]>;
@@ -9,7 +10,7 @@ interface IProductsWarehouseService {
     addCategory(data: ProductsCategoryDto): Promise<string>;
     release(ctx: any, id: string, numb: number): Promise<any>;
     delete(id: string): Promise<boolean>;
-    // login(account: string, password: string): Promise<any>;
+    report(queryParams: any): Promise<TransactionHistoryWrapper>;
 }
 
 export default IProductsWarehouseService;

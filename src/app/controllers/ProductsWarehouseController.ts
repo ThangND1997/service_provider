@@ -10,6 +10,8 @@ import IProductsCategoryConverter from "../../data/converters/IProductsCategoryC
 import ExceptionModel from "../../libs/exception.lib";
 import ErrorCode from "../../libs/error_code";
 import HttpStatus from "../../libs/http_code";
+import { ParamsDictionary } from "express-serve-static-core";
+import { ParsedQs } from "qs";
 
 @injectable()
 export class ProductsWarehouseController implements IProductsWarehouseController {
@@ -65,6 +67,18 @@ export class ProductsWarehouseController implements IProductsWarehouseController
             const id = req.params.id
             await this._productsWarehouseService.delete(id);
             res.json({status: "Update data successfully..", id});
+        }
+        catch (err) {
+            next(err)
+        }
+    }
+
+    public async report(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
+        try {
+            const queryParams = req.query || {};
+            const result = await this._productsWarehouseService.report(queryParams);
+            res.status(200);
+            res.json(result);
         }
         catch (err) {
             next(err)

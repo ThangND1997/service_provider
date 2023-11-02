@@ -12,7 +12,7 @@ import ErrorCode from "./libs/error_code";
 import HttpStatus from "./libs/http_code";
 import { errorHandler, notFoundHandler } from "./middlewares/ErrorHandler";
 
-const HTTP_PORT = process.env.PORT || 3000;
+const HTTP_PORT = process.env.PORT || 4000;
 
 const startServer = () => {
     const app = express();
@@ -50,7 +50,7 @@ const startServer = () => {
         res.json(err);
     }));
 
-    app.listen(process.env.PORT || 3000, () => {
+    app.listen(process.env.PORT || 4000, () => {
         Logger.info(`HTTP Server Listening on ${HTTP_PORT}`);
     });
 };

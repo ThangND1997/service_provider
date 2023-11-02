@@ -11,6 +11,9 @@ router.route("/:id")
     .put(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.update.bind(controller))
     .delete(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.delete.bind(controller));
 
+router.route("/report")
+    .get(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.report.bind(controller))
+
 router.route("/:id/release")
     .post(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.release.bind(controller))
 
