@@ -71,7 +71,7 @@ export class UsersController implements IUsersController {
     public async reject(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
         try {
             let id: string = req.params.id;
-            await this._usersService.approve(id);
+            await this._usersService.reject(id);
             res.status(200);
             res.json({status: "Update successfully..", id});
         }
