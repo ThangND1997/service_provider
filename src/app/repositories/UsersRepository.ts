@@ -48,7 +48,8 @@ export class UsersRepository extends BaseRepository<UsersModel, UsersDto> implem
             }
 
             q.offset(params.offset || 0);
-            q.limit(params.limit || 10);
+            q.limit(params.limit || 1000);
+            q.orderBy(USERS_TABLE_SCHEMA.FIELDS.CREATED_DATE, "DESC")
         });
     }
 
