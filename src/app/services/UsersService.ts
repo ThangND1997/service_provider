@@ -95,7 +95,7 @@ constructor(@inject(TYPES.USERS_REPOSITORY) private _usersRepository: IUsersRepo
 
     public async approve(id: string): Promise<string> {
         const oldData = await this._usersRepository.findById(id);
-        if (!oldData || oldData.status !== STATUS.PENDING) {
+        if (!oldData || (oldData.status !== STATUS.PENDING && oldData.status !== STATUS.ARCHIVED)) {
             throw new ExceptionModel(
                 ErrorCode.RESOURCE.INVALID_REQUEST.CODE,
                 ErrorCode.RESOURCE.INVALID_REQUEST.MESSAGE,
