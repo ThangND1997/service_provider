@@ -19,7 +19,7 @@ router.route("/:id/reject")
     .post(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.reject.bind(controller));    
 
 router.route("/:id")
-    .get(verifyContext(), hasPrivilege([ROLE.ADMIN, ROLE.USER]), controller.view.bind(controller))
+    .get(verifyContext(), hasPrivilege([ROLE.ADMIN, ROLE.MEMBER]), controller.view.bind(controller))
     .put(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.update.bind(controller))
     .delete(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.delete.bind(controller))
 

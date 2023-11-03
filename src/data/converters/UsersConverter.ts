@@ -82,7 +82,7 @@ class UsersConverter implements IUsersConverter {
         dto.password = body.password;
         dto.avatarUrl = body.avatarUrl;
         dto.phone = body.phone;
-        dto.role = ROLE.USER
+        dto.role = ROLE.MEMBER
         return dto;
     }
 }

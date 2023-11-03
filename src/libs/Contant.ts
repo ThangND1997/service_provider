@@ -1,7 +1,7 @@
 
 export const ROLE ={
     ADMIN: "admin",
-    USER: "user"
+    MEMBER: "member"
 }
 
 export const STATUS = {

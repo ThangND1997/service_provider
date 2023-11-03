@@ -13,7 +13,7 @@ import ExceptionModel from "../../libs/exception.lib";
 import { Logger } from "../../core";
 import ISessionsRepository from "../repositories/ISessionsRepository";
 import * as momentTz from "moment-timezone";
-import { STATUS } from "../../libs/Contant";
+import { ROLE, STATUS } from "../../libs/Contant";
 
 @injectable()
 class UsersService extends BaseService<IUsersRepository, UsersDto> implements IUsersService {
@@ -111,7 +111,7 @@ constructor(@inject(TYPES.USERS_REPOSITORY) private _usersRepository: IUsersRepo
 
     public async reject(id: string): Promise<string> {
         const oldData = await this._usersRepository.findById(id);
-        if (!oldData || oldData.status !== STATUS.PENDING) {
+        if (!oldData || oldData.status === STATUS.PENDING || oldData.role === ROLE.ADMIN) {
             throw new ExceptionModel(
                 ErrorCode.RESOURCE.INVALID_REQUEST.CODE,
                 ErrorCode.RESOURCE.INVALID_REQUEST.MESSAGE,

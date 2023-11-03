@@ -19,10 +19,10 @@ router.route("/:id/release")
 
 router.route("/category")
     .post(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.addCategory.bind(controller))
-    .get(verifyContext(), hasPrivilege([ROLE.USER, ROLE.ADMIN]), controller.retrieveCategory.bind(controller));    
+    .get(verifyContext(), hasPrivilege([ROLE.MEMBER, ROLE.ADMIN]), controller.retrieveCategory.bind(controller));    
 
 router.route("/")
     .post(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.create.bind(controller))
-    .get(verifyContext(), hasPrivilege([ROLE.USER, ROLE.ADMIN]), controller.search.bind(controller));
+    .get(verifyContext(), hasPrivilege([ROLE.MEMBER, ROLE.ADMIN]), controller.search.bind(controller));
 
 export default router;
