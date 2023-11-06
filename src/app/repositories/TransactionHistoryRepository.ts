@@ -20,6 +20,7 @@ import IProductsCategoryConverter from "../../data/converters/IProductsCategoryC
 import TransactionHistoryModel from "../../data/models/TransactionHistoryModel";
 import TransactionHistoryDto from "../../data/dtos/TransactionHistoryDto";
 import ITransactionHistoryConverter from "../../data/converters/ITransactionHistoryConverter";
+import * as momentTz from "moment-timezone"
 
 
 @injectable()
@@ -35,10 +36,10 @@ export class TransactionHistoryRepository extends BaseRepository<TransactionHist
             q.where(TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.IS_DELETED, false)
             q.where(TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.IS_ENABLE, true)
             if (queryParams.startDate) {
-                q.where(TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE, ">=", queryParams.startDate.toISOString())
+                q.where(TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE, ">=", momentTz(queryParams.startDate).toISOString())
             }
             if (queryParams.endDate) {
-                q.where(TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE, "<", queryParams.endDate.toISOString())
+                q.where(TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE, "<", momentTz(queryParams.endDate).toISOString())
             }
         }
     }
@@ -50,16 +51,18 @@ export class TransactionHistoryRepository extends BaseRepository<TransactionHist
     public async countTrackingByQuery(queryParams: any): Promise<any> {
         let queryStartDate = "";
         let queryEndDate = "";
+        let startDate = momentTz(queryParams.startDate).toISOString();
+        let endDate = momentTz(queryParams.endDate).toISOString();
         if (queryParams.startDate) {
-            queryStartDate = `AND a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE} >= ${queryParams.startDate.toISOString()}`
+            queryStartDate = `AND a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE} >= '${startDate}'`
         }
         if (queryParams.endDate) {
-            queryEndDate = `AND a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE} < ${queryParams.endDate.toISOString()}`
+            queryEndDate = `AND a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE} < '${endDate}'`
         }
         return this.rawQuery(
             `SELECT COUNT
                 (a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE}) AS COUNT,
-                SUM (a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.NUMBER_OF_PRODUCTS}) AS quantity,
+                SUM (a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.NUMBER_OF_PRODUCTS} * a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.PRICE_CHARGE}) AS quantity,
                 b.${PRODUCTS_WAREHOUSE_TABLE_SCHEMA.FIELDS.NAME},
                 date_trunc( 'hour', a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE} ) AS dateTime 
             FROM

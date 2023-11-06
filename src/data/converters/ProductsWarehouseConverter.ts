@@ -79,9 +79,9 @@ class ProductsWarehouseConverter implements IProductsWarehouseConverter {
         toDb.picture = body.picture;
         toDb.images = body.images;
         toDb.categoryId = body.categoryId;
-        toDb.total = body.total;
+        toDb.total = body.total || 0;
 
-        if (!toDb.name || !toDb.priceOriginal || !toDb.priceDisplay || !toDb.picture || toDb.categoryId){
+        if (!toDb.name || !toDb.priceOriginal || !toDb.priceDisplay || !toDb.picture || !toDb.categoryId){
             throw new ExceptionModel(
                 ErrorCode.RESOURCE.MISSING_FIELD.CODE,
                 ErrorCode.RESOURCE.MISSING_FIELD.MESSAGE,

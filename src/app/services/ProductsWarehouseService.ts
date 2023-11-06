@@ -85,16 +85,16 @@ constructor(
         const chartData: ChartTransactionHistory[] = [];
         for (const report of chartOptions.reportData) {
             const index = _.findIndex(chartData, i => i.name === report.name);
-                if (index !== -1) {
-                    chartData[index].data = this.replacePutProductsToArray(report.datetime, report.quantity, hourSeries, chartData[index].data);
-                }else {
-                    const item = {
-                        name: report.name,
-                        data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-                    }
-                    item.data = this.replacePutProductsToArray(report.datetime, report.quantity, hourSeries, item.data);
-                    chartData.push(item)
+            if (index !== -1) {
+                chartData[index].data = this.replacePutProductsToArray(report.datetime, report.quantity, hourSeries, chartData[index].data);
+            }else {
+                const item = {
+                    name: report.name,
+                    data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
                 }
+                item.data = this.replacePutProductsToArray(report.datetime, report.quantity, hourSeries, item.data);
+                chartData.push(item)
+            }
         }
         return chartData;
     }
@@ -114,23 +114,24 @@ constructor(
     public async report(queryParams: any): Promise<TransactionHistoryWrapper> {
         const dtos = await this._transactionHistoryRepository.getByQuery(queryParams);
         const trackingData = await this._transactionHistoryRepository.countTrackingByQuery(queryParams);
-        let totalPriceCharge = 0;
-        let totalNumberOfProducts = 0;
         const charts: ChartTransactionHistory[] = this.buildHourlyChartData({
             reportData: trackingData,
-            startDate: momentTz().startOf("days"),
-            endDate: momentTz().endOf("days"),
+            startDate: momentTz(queryParams.startDate).startOf("days"),
+            endDate: momentTz(queryParams.endDate).endOf("days"),
         });
         
-        for (const sum of dtos) {
-            totalPriceCharge += sum.priceCharge;
-            totalNumberOfProducts += sum.numberOfProducts;
-        }
-
         const summary: SummaryTransactionHistory = {
-            totalPriceCharge,
-            totalNumberOfProducts
+            totalPriceCharge: 0,
+            detailPriceCharge: [],
         };
+        for (const dataClone of charts) {
+            const fee = _.sum(dataClone.data);
+            summary.detailPriceCharge.push({
+                title: dataClone.name,
+                fee
+            });
+            summary.totalPriceCharge += fee;
+        }
 
         const result = new TransactionHistoryWrapper()
         result.data = dtos;

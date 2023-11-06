@@ -5,7 +5,7 @@ import TransactionHistoryDto from "./TransactionHistoryDto";
 
 export interface SummaryTransactionHistory {
     totalPriceCharge: number;
-    totalNumberOfProducts: number;
+    detailPriceCharge: any;
 }
 export interface ChartTransactionHistory {
     name: string
