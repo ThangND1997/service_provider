@@ -93,7 +93,7 @@ constructor(
                     data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
                 }
                 item.data = this.replacePutProductsToArray(report.datetime, report.quantity, hourSeries, item.data);
-                chartData.push(item)
+                chartData.push(item);
             }
         }
         return chartData;
