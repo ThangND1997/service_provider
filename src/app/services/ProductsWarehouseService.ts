@@ -101,7 +101,9 @@ constructor(
 
     private replacePutProductsToArray(datetime: momentTz.Moment, quantity: number, hourSeries: momentTz.Moment[], data: number[]): number[] {
         const dataClone: number[] = data;
+        console.log("Moment outsize" + momentTz().toISOString());
         _.forEach(hourSeries, (currentTime, index) => {
+            console.log("Moment in if" + momentTz(currentTime).toISOString());
             if (momentTz(datetime).isSame(currentTime.utc())) {
                 dataClone[index] += Number(quantity);
                 return dataClone;
