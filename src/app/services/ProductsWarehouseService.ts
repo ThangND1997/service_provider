@@ -119,8 +119,8 @@ constructor(
         const trackingData = await this._transactionHistoryRepository.countTrackingByQuery(queryParams);
         const charts: ChartTransactionHistory[] = this.buildHourlyChartData({
             reportData: trackingData,
-            startDate: momentTz(queryParams.startDate).startOf("days"),
-            endDate: momentTz(queryParams.endDate).endOf("days"),
+            startDate: momentTz(queryParams.startDate).utc(),
+            endDate: momentTz(queryParams.endDate).utc(),
         });
         
         const summary: SummaryTransactionHistory = {
