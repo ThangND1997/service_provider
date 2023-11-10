@@ -22,7 +22,7 @@ const startServer = () => {
     app.use(cors());
     app.use(helmet());
     app.use(compression());
-    app.use("/", Router)
+    app.use("/", Router);
     app.use(httpLogger());
     app.use(notFoundHandler);
     app.use(errorHandler);

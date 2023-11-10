@@ -12,6 +12,8 @@ import { UsersModel } from "../models";
 import { iocContainer } from "../../ioc/IoCContainer";
 import IUsersConverter from "./IUsersConverter";
 import { TYPES } from "../../ioc/Types";
+import ProductsCategoryModel from "../models/ProductsCategoryModel";
+import IProductsCategoryConverter from "./IProductsCategoryConverter";
 
 @injectable()
 class ProductsWarehouseConverter implements IProductsWarehouseConverter {
@@ -40,6 +42,14 @@ class ProductsWarehouseConverter implements IProductsWarehouseConverter {
                 const usersDto = await usersConverter.modelToDto(usersModel);
                 if (usersDto) {
                     dto.user = usersDto;
+                }
+            }
+            const categoryModel: ProductsCategoryModel = model["products_category"] as ProductsCategoryModel;
+            if (categoryModel) {
+                const categoryConverter = iocContainer.get<IProductsCategoryConverter>(TYPES.PRODUCTS_CATEGORY_CONVERTER);
+                const categoryDto = await categoryConverter.modelToDto(categoryModel);
+                if (categoryDto) {
+                    dto.category = categoryDto;
                 }
             }
         }

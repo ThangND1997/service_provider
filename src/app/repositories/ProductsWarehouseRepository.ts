@@ -37,6 +37,10 @@ export class ProductsWarehouseRepository extends BaseRepository<ProductsWarehous
                 q.where(PRODUCTS_WAREHOUSE_TABLE_SCHEMA.FIELDS.NAME, "ILIKE", `%${params.name}%`);
             }
 
+            if (params.categoryId) {
+                q.where(PRODUCTS_WAREHOUSE_TABLE_SCHEMA.FIELDS.CATEGORY_ID, params.categoryId);
+            }
+
             q.orderBy(PRODUCTS_WAREHOUSE_TABLE_SCHEMA.FIELDS.CREATED_DATE, "DESC");
 
             if ([params.orderBy].includes(params.orderBy) && params.orderType != null) {
@@ -46,7 +50,7 @@ export class ProductsWarehouseRepository extends BaseRepository<ProductsWarehous
             q.offset(params.offset || 0);
             q.limit(params.limit || 10);
         },{
-            relations: ["users"]
+            relations: ["users", "products_category"]
         });
     }
 }

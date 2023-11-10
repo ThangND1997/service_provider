@@ -1,5 +1,6 @@
 import { Expose, Transform, Type } from "class-transformer";
 import { BaseDto, UsersDto } from ".";
+import ProductsCategoryDto from "./ProductsCategory";
 
 
 class ProductsWarehouseDto extends BaseDto {
@@ -36,6 +37,9 @@ class ProductsWarehouseDto extends BaseDto {
 
     @Expose()
     public user: UsersDto;
+
+    @Expose()
+    public category: ProductsCategoryDto;
 }
 
 export default ProductsWarehouseDto;
