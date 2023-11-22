@@ -129,6 +129,7 @@ constructor(
             const fee = _.sum(dataClone.data);
             summary.detailPriceCharge.push({
                 title: dataClone.name,
+                numb: dataClone.numb,
                 fee
             });
             summary.totalPriceCharge += fee;
