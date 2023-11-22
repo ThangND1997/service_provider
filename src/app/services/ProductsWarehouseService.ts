@@ -86,12 +86,11 @@ constructor(
         for (const report of chartOptions.reportData) {
             const index = _.findIndex(chartData, i => i.name === report.name);
             if (index !== -1) {
-                chartData[index].numb += report.numb;
                 chartData[index].data = this.replacePutProductsToArray(report.datetime, report.quantity, hourSeries, chartData[index].data);
             }else {
                 const item = {
                     name: report.name,
-                    numb: report.numb,
+                    picture: report.picture,
                     data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
                 }
                 item.data = this.replacePutProductsToArray(report.datetime, report.quantity, hourSeries, item.data);
@@ -130,7 +129,7 @@ constructor(
             const fee = _.sum(dataClone.data);
             summary.detailPriceCharge.push({
                 title: dataClone.name,
-                numb: dataClone.numb,
+                numb: dataClone.picture,
                 fee
             });
             summary.totalPriceCharge += fee;

@@ -64,7 +64,7 @@ export class TransactionHistoryRepository extends BaseRepository<TransactionHist
                 (a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE}) AS COUNT,
                 SUM (a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.NUMBER_OF_PRODUCTS} * a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.PRICE_CHARGE}) AS quantity,
                 b.${PRODUCTS_WAREHOUSE_TABLE_SCHEMA.FIELDS.NAME},
-                a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.NUMBER_OF_PRODUCTS} AS numb,
+                b.${PRODUCTS_WAREHOUSE_TABLE_SCHEMA.FIELDS.PICTURE},
                 date_trunc( 'hour', a.${TRANSACTION_HISTORY_TABLE_SCHEMA.FIELDS.CREATED_DATE} ) AS dateTime 
             FROM
                 ${TRANSACTION_HISTORY_TABLE_SCHEMA.TABLE_NAME} a
@@ -76,7 +76,7 @@ export class TransactionHistoryRepository extends BaseRepository<TransactionHist
                     ${queryStartDate}
                     ${queryEndDate}
             GROUP BY
-                date_trunc('hour', a.created_date), a."number_of_products", b."name"`
+                date_trunc('hour', a.created_date), a."number_of_products", b."name", b."picture"`
         );
     }
 }
