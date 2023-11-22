@@ -10,6 +10,7 @@ export interface SummaryTransactionHistory {
 export interface ChartTransactionHistory {
     name: string
     data: number[];
+    numb: number;
 }
 
 class TransactionHistoryWrapper extends BaseDto {

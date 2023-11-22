@@ -90,6 +90,7 @@ constructor(
             }else {
                 const item = {
                     name: report.name,
+                    numb: report.numb,
                     data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
                 }
                 item.data = this.replacePutProductsToArray(report.datetime, report.quantity, hourSeries, item.data);
