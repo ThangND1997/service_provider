@@ -28,6 +28,7 @@ class UsersConverter implements IUsersConverter {
             dto.expiryDate = model[USERS_TABLE_SCHEMA.FIELDS.EXPIRY_DATE] || "";
             dto.status = model[USERS_TABLE_SCHEMA.FIELDS.STATUS] || "";
             dto.address = model[USERS_TABLE_SCHEMA.FIELDS.ADDRESS] || "";
+            dto.password = model[USERS_TABLE_SCHEMA.FIELDS.PASSWORD] || "";
         }
 
         return dto;
