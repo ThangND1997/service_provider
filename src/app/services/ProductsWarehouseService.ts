@@ -86,6 +86,7 @@ constructor(
         for (const report of chartOptions.reportData) {
             const index = _.findIndex(chartData, i => i.name === report.name);
             if (index !== -1) {
+                chartData[index].numb += report.numb;
                 chartData[index].data = this.replacePutProductsToArray(report.datetime, report.quantity, hourSeries, chartData[index].data);
             }else {
                 const item = {
