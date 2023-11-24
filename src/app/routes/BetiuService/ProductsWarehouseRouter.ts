@@ -17,6 +17,9 @@ router.route("/report")
 router.route("/:id/release")
     .post(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.release.bind(controller))
 
+router.route("/releases")
+    .post(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.releases.bind(controller))    
+
 router.route("/category")
     .post(verifyContext(), hasPrivilege([ROLE.ADMIN]), controller.addCategory.bind(controller))
     .get(verifyContext(), hasPrivilege([ROLE.MEMBER, ROLE.ADMIN]), controller.retrieveCategory.bind(controller));    

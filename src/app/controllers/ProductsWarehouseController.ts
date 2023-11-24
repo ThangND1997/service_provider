@@ -12,6 +12,7 @@ import ErrorCode from "../../libs/error_code";
 import HttpStatus from "../../libs/http_code";
 import { ParamsDictionary } from "express-serve-static-core";
 import { ParsedQs } from "qs";
+import { Logger } from "../../core";
 
 @injectable()
 export class ProductsWarehouseController implements IProductsWarehouseController {
@@ -100,6 +101,25 @@ export class ProductsWarehouseController implements IProductsWarehouseController
             }
             await this._productsWarehouseService.release(ctx, id, numberOfProducts);
             res.json({status: "Update data successfully..", id});
+        }
+        catch (err) {
+            next(err)
+        }
+    }
+
+    public async releases(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
+        try {
+            const ctx = res.locals.ctx;
+            const dataRequest = req.body as {id: string, numberOfProducts: number}[];
+            try {
+                for (const data of dataRequest) {
+                    await this._productsWarehouseService.release(ctx, data.id, data.numberOfProducts);
+                }
+            } catch (error) {
+                Logger.error("[RELEASE_PRODUCTS]: có lỗi khi release sản phẩm", error)
+                
+            }
+            res.json({status: "Update data successfully.."});
         }
         catch (err) {
             next(err)
