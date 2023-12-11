@@ -71,6 +71,7 @@ constructor(
 
     public buildHourlyChartData(chartOptions: {
         reportData: any[],
+        reportType: string,
         startDate: momentTz.Moment,
         endDate: momentTz.Moment
     }): ChartTransactionHistory[] {
@@ -86,26 +87,31 @@ constructor(
         for (const report of chartOptions.reportData) {
             const index = _.findIndex(chartData, i => i.name === report.name);
             if (index !== -1) {
-                chartData[index].data = this.replacePutProductsToArray(report.datetime, report.quantity, hourSeries, chartData[index].data);
+                chartData[index].data = this.replacePutProductsToArray(report, hourSeries, chartData[index].data, chartOptions.reportType);
             }else {
                 const item = {
                     name: report.name,
                     picture: report.picture,
                     data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
                 }
-                item.data = this.replacePutProductsToArray(report.datetime, report.quantity, hourSeries, item.data);
+                item.data = this.replacePutProductsToArray(report, hourSeries, item.data, chartOptions.reportType);
                 chartData.push(item);
             }
         }
         return chartData;
     }
 
-    private replacePutProductsToArray(datetime: momentTz.Moment, quantity: number, hourSeries: momentTz.Moment[], data: number[]): number[] {
+    private replacePutProductsToArray(report: any, hourSeries: momentTz.Moment[], data: number[], type: string): number[] {
         const dataClone: number[] = data;
         _.forEach(hourSeries, (currentTime, index) => {
-            if (momentTz(datetime).toISOString() === momentTz(currentTime).toISOString()) {
-                dataClone[index] += Number(quantity);
-                return dataClone;
+            if (momentTz(report.datetime).toISOString() === momentTz(currentTime).toISOString()) {
+                if (type === "revenue") {
+                    dataClone[index] += Number(report.revenue);
+                    return dataClone;
+                }else {
+                    dataClone[index] += Number(report.quantity);
+                    return dataClone;
+                }
             }
         } )
 
@@ -113,10 +119,12 @@ constructor(
     }
 
     public async report(queryParams: any): Promise<TransactionHistoryWrapper> {
+        const type = queryParams.type || "revenue";
         const dtos = await this._transactionHistoryRepository.getByQuery(queryParams);
         const trackingData = await this._transactionHistoryRepository.countTrackingByQuery(queryParams);
         const charts: ChartTransactionHistory[] = this.buildHourlyChartData({
             reportData: trackingData,
+            reportType: type,
             startDate: momentTz(queryParams.startDate).utc(),
             endDate: momentTz(queryParams.endDate).utc(),
         });
@@ -135,10 +143,11 @@ constructor(
             summary.totalPriceCharge += fee;
         }
 
-        const result = new TransactionHistoryWrapper()
+        const result = new TransactionHistoryWrapper();
         result.data = dtos;
         result.summary = summary;
         result.charts = charts;
+
         return result;
     }
 

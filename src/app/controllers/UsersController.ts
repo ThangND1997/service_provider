@@ -107,7 +107,7 @@ export class UsersController implements IUsersController {
 
     public async login(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
         try {
-            const account: string = (req.body.account).trim() || "";
+            const account: string = (req.body.email).trim() || "";
             const password: string = (req.body.password).trim() || "";
 
             if (!account || !password) {
