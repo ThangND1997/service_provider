@@ -140,8 +140,10 @@ constructor(
                 picture: dataClone.picture,
                 fee
             });
-            summary.totalPriceCharge += fee;
         }
+        summary.totalPriceCharge = trackingData.reduce((n: any, item: any) => {
+            return n + Number(item.revenue);
+        }, 0)
 
         const result = new TransactionHistoryWrapper();
         result.data = dtos;
