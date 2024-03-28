@@ -27,7 +27,7 @@ export const MOMENT_DATE_FORMAT = {
     SEND_MAIL_FULL_DATE: "dddd, DD MMM YYYY",
     MMM_YY: "MMM YY",
     MMM_YYYY: "MMM YYYY",
-    FULL_DATE_TIME: "dddd, MMMM Do YYYY, h:mm:ss a",
+    FULL_DATE_TIME: "hh:mm A, DD MMM YYYY",
     DD_MMM_YYYY_hh_mm_A: "DD MMM YYYY, hh:mm A",
     FULL_DATE: "dddd, DD MMMM YYYY",
     FULL_DATE_WITHOUT_YEAR: "dddd, DD MMMM",
