@@ -1,6 +1,8 @@
 import * as TelegramBot from 'node-telegram-bot-api';
+import * as momentTz from "moment-timezone";
 import { Logger } from '../core';
 import ProductsWarehouseDto from '../data/dtos/ProductsWarehouseDto';
+import { MOMENT_DATE_FORMAT } from '../libs/Contant';
 
 class TelegramClient {
     private groupId: string;
@@ -38,8 +40,9 @@ class TelegramClient {
             \nSố lượng bán: ${item.releaseTotal} 
             \nSố lượng còn lại: ${item.restTotal} 
             \nĐơn giá: ${item.priceDisplay ? item.priceDisplay + ".000 VND" : "0 VND"} 
-            \nDoanh thu: ${item.priceDisplay && item.releaseTotal ? item.priceDisplay * item.releaseTotal : "0 VND"} 
+            \nDoanh thu: ${item.priceDisplay && item.releaseTotal ? item.priceDisplay * item.releaseTotal + ".000 VND" : "0 VND"} 
             \nNgười thực hiện: ${item.userName}
+            \nThời gian thực hiện: ${momentTz().format(MOMENT_DATE_FORMAT.FULL_DATE_TIME)}
             \nGhi chú: None
             `;
             if (item.picture) {

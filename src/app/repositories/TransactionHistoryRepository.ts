@@ -20,7 +20,7 @@ import IProductsCategoryConverter from "../../data/converters/IProductsCategoryC
 import TransactionHistoryModel from "../../data/models/TransactionHistoryModel";
 import TransactionHistoryDto from "../../data/dtos/TransactionHistoryDto";
 import ITransactionHistoryConverter from "../../data/converters/ITransactionHistoryConverter";
-import * as momentTz from "moment-timezone"
+import * as momentTz from "moment-timezone";
 
 
 @injectable()
