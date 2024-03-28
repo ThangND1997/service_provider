@@ -27,9 +27,13 @@ export const MOMENT_DATE_FORMAT = {
     SEND_MAIL_FULL_DATE: "dddd, DD MMM YYYY",
     MMM_YY: "MMM YY",
     MMM_YYYY: "MMM YYYY",
-    FULL_DATE_TIME: "hh:mm a, dddd, DD MMM YYYY",
+    FULL_DATE_TIME: "dddd, MMMM Do YYYY, h:mm:ss a",
     DD_MMM_YYYY_hh_mm_A: "DD MMM YYYY, hh:mm A",
     FULL_DATE: "dddd, DD MMMM YYYY",
     FULL_DATE_WITHOUT_YEAR: "dddd, DD MMMM",
     DD_MMMM_YYYY: "DD MMMM YYYY",
 };
+
+export const TIMEZONE = {
+    DEFAULT: "Asia/Ho_Chi_Minh",
+}
