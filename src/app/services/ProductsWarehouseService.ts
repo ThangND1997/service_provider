@@ -22,6 +22,7 @@ import IProductsCategoryRepository from "../repositories/IProductsCategoryReposi
 import TransactionHistoryDto from "../../data/dtos/TransactionHistoryDto";
 import ITransactionHistoryRepository from "../repositories/ITransactionHistoryRepository";
 import TransactionHistoryWrapper, { ChartTransactionHistory, SummaryTransactionHistory } from "../../data/dtos/TransactionHistoryWrapper";
+import { telegramClient } from "../../infrastructure";
 
 @injectable()
 class ProductsWarehouseService extends BaseService<IProductsWarehouseRepository, ProductsWarehouseDto> implements IProductsWarehouseService {
@@ -36,7 +37,12 @@ constructor(
     }
 
     public async create(data: UsersDto): Promise<any> {
-        return this._productsWarehouseRepository.create(data);
+        const id = await this._productsWarehouseRepository.create(data);
+        const item = await this._productsWarehouseRepository.findById(id, {relations: ["users"]});
+        if (item) {
+            await telegramClient.sendMessageNewProductItem(item);
+        }
+        return id;
     }
 
     public async search(params: any): Promise<ProductsWarehouseDto[]> {
@@ -154,7 +160,7 @@ constructor(
     }
 
     public async release(ctx: any, id: string, numb: number): Promise<boolean> {
-        const existing = await this._productsWarehouseRepository.findById(id)
+        const existing = await this._productsWarehouseRepository.findById(id, {relations: ["users"]});
         if (!existing) {
             throw new ExceptionModel(
                 ErrorCode.RESOURCE.NOT_EXIST_DATA.CODE,
@@ -183,6 +189,7 @@ constructor(
         productsTraceHistoryDto.productsWarehouseId = id;
 
         await this._transactionHistoryRepository.insert(productsTraceHistoryDto);
+        await telegramClient.sendMessageReleaseItem({name: existing.name, releaseTotal: numb, restTotal, priceDisplay: existing.priceDisplay, userName: existing.user?.name, picture: existing.picture});
 
         return true
     }

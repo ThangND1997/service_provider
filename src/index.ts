@@ -2,7 +2,7 @@ import * as express from "express";
 import * as compression from "compression";
 import * as helmet from "helmet";
 import { PostgresConnection } from "./infrastructure/Postgres";
-import { Configuration, Logger } from "./core";
+import { Logger } from "./core";
 import Router from "./app/routes"
 import { httpLogger } from "./middlewares/HttpLog";
 import cors from "./middlewares/Cors";
@@ -11,14 +11,21 @@ import ExceptionModel from "./libs/exception.lib";
 import ErrorCode from "./libs/error_code";
 import HttpStatus from "./libs/http_code";
 import { errorHandler, notFoundHandler } from "./middlewares/ErrorHandler";
+import {json, urlencoded} from "body-parser";
 
 const HTTP_PORT = process.env.PORT || 4000;
+
+function rawBodySaver(req, res, buf, encoding) {
+    if (buf && buf.length) {
+        req.bufferBody = buf;
+    }
+}
 
 const startServer = () => {
     const app = express();
 
-    app.use(express.json({ limit: "5mb" }));
-    app.use(express.urlencoded({ limit: "5mb", extended: false }));
+    app.use(json({ limit: "5mb", verify: rawBodySaver }));
+    app.use(urlencoded({ limit: "5mb", extended: false, verify: rawBodySaver }));
     app.use(cors());
     app.use(helmet());
     app.use(compression());
