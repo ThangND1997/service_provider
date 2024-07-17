@@ -13,6 +13,16 @@ export const up = async (knex: Knex): Promise<any> => {
             table.dateTime(PRODUCTS_CATEGORY_TABLE_SCHEMA.FIELDS.UPDATED_DATE).defaultTo(knex.raw("current_timestamp"));
             table.string(PRODUCTS_CATEGORY_TABLE_SCHEMA.FIELDS.NAME).index();
         });
+        const defaultCategory = {
+            id: '6da2b221-19b6-4b11-957c-a6ebf9a4c3e4',
+            is_deleted: false,
+            is_enable: true,
+            created_date: new Date(),
+            updated_date: new Date(),
+            name: 'Bun, Chaos',
+        };
+        
+        await knex(PRODUCTS_CATEGORY_TABLE_SCHEMA.TABLE_NAME).insert(defaultCategory);
     }
 };
 

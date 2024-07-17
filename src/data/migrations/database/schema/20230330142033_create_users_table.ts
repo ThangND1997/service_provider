@@ -22,6 +22,22 @@ export const up = async (knex: Knex): Promise<any> => {
             table.string(USERS_TABLE_SCHEMA.FIELDS.ACCOUNT).nullable();
             table.string(USERS_TABLE_SCHEMA.FIELDS.PASSWORD).notNullable();
         });
+
+        const adminUser = {
+            id: '2bde0e76-3b8b-41fa-a248-81c841f6fbcb',
+            is_deleted: false,
+            is_enable: true,
+            created_date: new Date(),
+            updated_date: new Date(),
+            avatar_url: 'https://cdn.stageit.app/images/icondo/staging/assets/239efe39/dc46/4cbb/a33f/d579ecf023aa/raw.gif',
+            name: 'Admin',
+            role: 'manager',
+            email: 'thangnd@stageit.app',
+            status: 'active',
+            password: 'no care'
+        };
+        
+        await knex(USERS_TABLE_SCHEMA.TABLE_NAME).insert(adminUser);
     }
 };
 

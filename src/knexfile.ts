@@ -10,7 +10,7 @@ module.exports = {
     database: process.env.POSTGRES_DB,
     charset: "utf8mb4",
     timezone: "UTC",
-    password: process.env.PASSWORD,
+    password: process.env.POSTGRES_PASSWORD,
     ssl: true
   },
   version: "9.4",
